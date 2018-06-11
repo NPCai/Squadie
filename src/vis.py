@@ -50,16 +50,14 @@ def parse(sentence, answer):
 	i = invertedParse(sentence, answer)
 	if i != None:
 		return i
-	i = noObjParse(sentence, answer)
-	return i
 
 def genericParse(sentence, answer):
 	''' Generic catch-most parse algorithm for generating tuples '''
-	arg1 = ""
-	arg2 = ""
+	arg1 = None
+	arg2 = None
 	prepChild = None
 	pobjChild = None
-	print(sentence.root)
+	attrChilds = []
 	for child in sentence.root.children:
 		# Get the subject
 		if child.dep_ == "nsubj":
@@ -69,13 +67,37 @@ def genericParse(sentence, answer):
 			prepChild = child
 		elif child.dep_.endswith("obj"):
 			pobjChild = child
-	if prepChild == None: # There was no preposition
+		elif child.dep_ == "attr":
+			attrChilds.append(child)
+
+	if arg1 == None:
+		for attrToken in attrChilds:
+			subject = True
+			for child in attrToken.children:
+				if child.dep_ == "prep" or child.dep_ == "advmod" or child.dep_ == "amod":
+					subject = False
+			if subject == True:
+				arg1, _ = descendants(sentence, attrToken, False)
+
+	if pobjChild != None: # There was no preposition
 		arg2 = descendants(sentence, pobjChild, True, sentence.root)[0] # TODO: add in optional arguments
-		if arg2 == None:
-			return None
-	else: # There might be something under the prepChild
+
+	elif prepChild != None: # There might be something under the prepChild
 		arg2 = descendants(sentence, prepChild, True, sentence.root)[0]
-	return Extract(arg1=arg1, arg2=arg2, rel=answer)
+
+	else: # No object
+		for attrToken in attrChilds:
+			obj = False
+			print(attrToken)
+			for child in attrToken.children:
+				if child.dep_ == "prep" or child.dep_ == "advmod" or child.dep_ == "amod":
+					obj = True
+			if obj == True:
+				arg2, _ = descendants(sentence, attrToken, False)
+	print("Potential extract", Extract(arg1=arg1, arg2=arg2, rel=answer))
+	if arg1 != None and arg2 != None:
+		return Extract(arg1=arg1, arg2=arg2, rel=answer)
+	return None
 
 def invertedParse(sentence, answer):
 	''' Used for when the attr points back to the what i.e. "what be" questions '''
@@ -95,34 +117,23 @@ def invertedParse(sentence, answer):
 			arg2, obj = descendants(sentence, child, True)
 	rel = [token for token in rel if not token in obj]
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
-	
-	
+
+
 def whoParse(sentence, answer):
-		''' Parser for "who be" questions '''
-		arg1 = ""
-		arg2 = ""
-		rel = []
-		relBad = []
+	''' Parser for "who be" questions '''
+	arg1 = ""
+	arg2 = ""
+	rel = ""
+	if sentence[0].dep_ != "nsubj":
+		return None
+	else:
+		arg1 = answer
 
-		if sentence[0].dep_ != "nsubj": # Checking to make sure this is the right algorithm to use
-			return None
-		else:
-			arg1 = answer # arg1 just replace the who with the answer
-
-		_, rel = descendants(sentence, sentence.root, True) # Gets the relation plus the relBad (lots of children!)
-
-		for child in rel:
-			if child.dep_ == "pobj":
-				arg2, relBad = descendants(sentence, child, True) # Gets just the relBad children
-				break
-
-		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
-		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
-
-
-	# return Extract(arg1 = answer, arg2 = peepee, rel = relation)
+	print(sentence.root)
+	pass
+	# return Extract(arg1 = answer, arg2 = peepee, rel = ''.join(str(i) + " " for i in rel).strip())
 	
 
-def noObjParse(sentence, answer):
-	# TODO(jacob): implement
-	pass
+
+
+
