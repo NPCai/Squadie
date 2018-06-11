@@ -2,5 +2,6 @@ import spacy
 from spacy import displacy
 
 nlp = spacy.load('en')
-doc = nlp(u'What does Thomas Edison think?')
+docInput = input("Enter a sentence:  ")
+doc = nlp(docInput)
 displacy.serve(doc, style='dep')
