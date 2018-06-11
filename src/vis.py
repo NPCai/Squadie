@@ -147,13 +147,36 @@ def whoParseNsubj(sentence, answer):
 def whoParseAttr(sentence, answer):
 	arg1 = []
 	arg2 = []
-	rel = ""
-	ArgBad = []
+	rel = []
+	relBad = []
+	pobj = True
+
 
 	if sentence[0].dep_ != "attr" or sentence[0].lower_ != "who": # Checking to make sure the who is an attribute of the root
 		return None
 	else:
-		print("Great success")
-	for child in sentence.root.children:
-		if child.dep_ == "pobj":
-			_, arg1 = descendants(sentence, child, True)
+		for child in sentence:
+			if child.dep_ == "pobj":
+				pobj = True
+				break
+			else:
+				pobj = False
+				if child.dep_ == "nsubj" or child.dep_ == "attr" and not isWh(child):
+					_, arg1 = descendants(sentence, child, True)
+		
+		if pobj == False:
+			rel = sentence.root
+			arg2 = answer
+			return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), arg2 = arg2, rel = rel)
+
+
+		if pobj == True:
+			for child in sentence:
+				if child.dep_ == "nsubj" or child.dep_ == "attr" and not isWh(child):
+					_, relBad = descendants(sentence, child, True, sentence.root)
+			
+				if child.dep_ == "pobj":
+					_, arg2 = descendants(sentence, child, True)
+					arg1 = answer
+			rel = [token for token in relBad if not token in arg2]
+			return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).strip(), rel = ''.join(str(i) + " " for i in rel).strip())
