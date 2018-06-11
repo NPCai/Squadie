@@ -140,7 +140,3 @@ def whoParse(sentence, answer):
 
 		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
 		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
-
-
-	# return Extract(arg1 = answer, arg2 = peepee, rel = relation)
-
