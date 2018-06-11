@@ -25,8 +25,10 @@ class TestParseMethods(unittest.TestCase):
 			 How many miles from the north Sea is Newcastle?
 			 What network is Newcastle a member of?
 			 What county was Newcastle a part of until 1400?
-			 What is the regional nickname for Newcastle and its surrounding area?''')
-		self.anstest = ["103 miles", "8.5 mi", "Eurocities", "Northumberland", "Geordie"]
+			 What is the regional nickname for Newcastle and its surrounding area?
+			 Who directed Luther away from self-reflection and towards the merits of Christ?
+			 Who is the primary rival of the Harvard Crimson hockey team?''')
+		self.anstest = ["103 miles", "8.5 mi", "Eurocities", "Northumberland", "Geordie", "Johann von Staupitz", "Cornell"]
 
 
 	def test_descendants(self):

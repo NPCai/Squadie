@@ -41,7 +41,10 @@ class Extract(object):
 
 def parse(sentence, answer):
 	''' Test different parsing algorithms '''
-	i = whoParse(sentence, answer)
+	i = whoParseNsubj(sentence, answer)
+	if i != None:
+		return i
+	i = whoParseAttr(sentence, answer)
 	if i != None:
 		return i
 	i = genericParse(sentence, answer)
@@ -119,7 +122,7 @@ def invertedParse(sentence, answer):
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
 
-def whoParse(sentence, answer):
+def whoParseNsubj(sentence, answer):
 		''' Parser for "who be" questions '''
 		arg1 = ""
 		arg2 = ""
@@ -140,3 +143,17 @@ def whoParse(sentence, answer):
 
 		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
 		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
+
+def whoParseAttr(sentence, answer):
+	arg1 = []
+	arg2 = []
+	rel = ""
+	ArgBad = []
+
+	if sentence[0].dep_ != "attr" or sentence[0].lower_ != "who": # Checking to make sure the who is an attribute of the root
+		return None
+	else:
+		print("Great success")
+	for child in sentence.root.children:
+		if child.dep_ == "pobj":
+			_, arg1 = descendants(sentence, child, True)
