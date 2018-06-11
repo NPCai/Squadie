@@ -62,6 +62,9 @@ def genericParse(sentence, answer):
 	pobjChild = None
 	attrChilds = []
 	for child in sentence.root.children:
+		if child.dep_ == "ccomp":
+			arg2 = descendants(sentence, child, True, sentence.root)[0]
+			print(arg2)
 		# Get the subject
 		if child.dep_ == "nsubj":
 			arg1 = descendants(sentence, child, True)[0]

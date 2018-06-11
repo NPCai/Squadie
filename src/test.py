@@ -30,6 +30,14 @@ class TestParseMethods(unittest.TestCase):
 			 Who is the primary rival of the Harvard Crimson hockey team?''')
 		self.anstest = ["103 miles", "8.5 mi", "Eurocities", "Northumberland", "Geordie", "Johann von Staupitz", "Cornell"]
 
+		self.martinLuther = nlp(u'''Where did Martin Luther go to school?
+			 How did Luther describe the University of Erfurt?
+			 How early did Luther say he had to awaken every day?
+			 How did Luther describe his learning at the university?
+			 In what year did Luther get his degree?''')
+		self.martinLuterTest = ["University of Erfurt", "beerhouse and whorehouse", "at four", "rote learning", "1505"]
+
+
 
 	def test_descendants(self):
 		sentences = list(self.doc.sents)
@@ -41,6 +49,13 @@ class TestParseMethods(unittest.TestCase):
 	def test_england(self):
 		sentences = list(self.test.sents)
 		for sentence, answer in zip(sentences, self.anstest):
+			print(sentence, answer)
+			print(v.parse(sentence, answer), "\n")
+		self.assertTrue(True)
+
+	def test_luther(self):
+		sentences = list(self.martinLuther.sents)
+		for sentence, answer in zip(sentences, self.martinLuterTest):
 			print(sentence, answer)
 			print(v.parse(sentence, answer), "\n")
 		self.assertTrue(True)
