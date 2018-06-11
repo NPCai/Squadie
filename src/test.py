@@ -1,0 +1,47 @@
+import unittest
+import vis as v
+import spacy
+
+class TestParseMethods(unittest.TestCase):
+
+	def setUp(self):
+		nlp = spacy.load('en')
+		self.doc = nlp(u'''In what year did Tesla go to Budapest?
+			 What was Konstantin Mereschkowski's career?
+			 What are chloroplasts descended from?
+			 How do chloroplasts trigger the plant's immune system?
+			 What does ATP synthase change into ATP?
+			 How many G3P molecules leave the cycle?
+			 What is an alternate way to make starch?
+			 When might Starch grains become overly large?
+			 What is the primary purpose of chloroplasts?
+			 Who was Alfred S Brown?
+			 Who won the Nobel Prize in 1905?''')
+		self.ans = ["1899", "biologist", "Cyanobacteria", "by purposely damaging their photosynthetic system",
+			"phosphorylate adenosine diphosphate", "3000", "glucose monomers",
+			"high atmospheric CO2 concentrations", "to conduct photosynthesis", "a Western Union superintendent",
+			"Phillip Leonard"]
+		self.test = nlp(u'''How many miles south of Edinburgh is Newcastle?
+			 How many miles from the north Sea is Newcastle?
+			 What network is Newcastle a member of?
+			 What county was Newcastle a part of until 1400?
+			 What is the regional nickname for Newcastle and its surrounding area?''')
+		self.anstest = ["103 miles", "8.5 mi", "Eurocities", "Northumberland", "Geordie"]
+
+
+	def test_descendants(self):
+		sentences = list(self.doc.sents)
+		for sentence, answer in zip(sentences, self.ans):
+			print(sentence, answer)
+			print(v.parse(sentence, answer), "\n")
+		self.assertTrue(True)
+
+	def test_england(self):
+		sentences = list(self.test.sents)
+		for sentence, answer in zip(sentences, self.anstest):
+			print(sentence, answer)
+			print(v.parse(sentence, answer), "\n")
+		self.assertTrue(True)
+
+if __name__ == '__main__':
+	unittest.main()
