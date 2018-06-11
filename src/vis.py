@@ -120,20 +120,27 @@ def invertedParse(sentence, answer):
 
 
 def whoParse(sentence, answer):
-	''' Parser for "who be" questions '''
-	arg1 = ""
-	arg2 = ""
-	rel = ""
-	if sentence[0].dep_ != "nsubj":
-		return None
-	else:
-		arg1 = answer
+		''' Parser for "who be" questions '''
+		arg1 = ""
+		arg2 = ""
+		rel = []
+		relBad = []
 
-	print(sentence.root)
-	pass
-	# return Extract(arg1 = answer, arg2 = peepee, rel = ''.join(str(i) + " " for i in rel).strip())
-	
+		if sentence[0].dep_ != "nsubj": # Checking to make sure this is the right algorithm to use
+			return None
+		else:
+			arg1 = answer # arg1 just replace the who with the answer
+
+		_, rel = descendants(sentence, sentence.root, True) # Gets the relation plus the relBad (lots of children!)
+
+		for child in rel:
+			if child.dep_ == "pobj":
+				arg2, relBad = descendants(sentence, child, True) # Gets just the relBad children
+				break
+
+		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
+		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
 
 
-
+	# return Extract(arg1 = answer, arg2 = peepee, rel = relation)
 
