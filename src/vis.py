@@ -53,6 +53,8 @@ def parse(sentence, answer):
 	i = invertedParse(sentence, answer)
 	if i != None:
 		return i
+	i = noObjParse(sentence, answer)
+	return i
 
 def genericParse(sentence, answer):
 	''' Generic catch-most parse algorithm for generating tuples '''
@@ -127,8 +129,27 @@ def invertedParse(sentence, answer):
 
 def noObjParse(sentence, answer):
 	''' Used when there is no object in the sentence '''
+	print("Starting noobj parse")
+	subjGroups = []
 	for token in sentence:
-		pass
+		if token.dep_.endswith("obj"): 
+			return None 
+		if token.dep_ == "nsubj" or token.dep_ == "nsubjpass":
+			subjGroups.append(descendants(sentence, token, True)[1])
+	if len(subjGroups) == 0:
+		return None
+	trueSubjPos = len(subjGroups) - 1 # default to the last subj group
+	if len(subjGroups) > 1: # have to find the true subject
+		count = 0
+		for group in subjGroups:
+			for word in group:
+				if word.pos_ == "PROPN":
+					trueSubj = count
+			count = count + 1
+	arg1 = ''.join(str(i) + " " for i in subjGroups[trueSubjPos]).strip()
+	rel = [i for i in sentence if not i in subjGroups[trueSubjPos]]
+	return Extract(arg1=arg1, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in rel).strip(), arg2=answer)
+
 
 def whoParseNsubj(sentence, answer):
 		''' Parser for "who be" questions '''
