@@ -15,6 +15,7 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 		sent = sentence[1:]
 	for token in sent:
 		if ancestor.is_ancestor(token) or ancestor == token or token in includes:
+			print(token, token.dep_)
 			descendants += str(token) + " "
 			descendantList.append(token)
 	if (len(descendants) > 0):
@@ -87,10 +88,11 @@ def genericParse(sentence, answer):
 					subject = False
 			if subject == True:
 				arg1, _ = descendants(sentence, attrToken, False)
-
-	if prepChild != None: # There was no preposition
+	
+	if prepChild != None and pobjChild != None:
+		arg2 = descendants(sentence, pobjChild, False, sentence.root)[0] + " " + descendants(sentence, prepChild, False)[0]
+	elif prepChild != None: # There was no preposition
 		arg2 = descendants(sentence, prepChild, True, sentence.root)[0] # TODO: add in optional arguments
-
 	elif pobjChild != None: # There might be something under the prepChild
 		arg2 = descendants(sentence, pobjChild, True, sentence.root)[0]
 
@@ -129,15 +131,15 @@ def invertedParse(sentence, answer):
 
 def noObjParse(sentence, answer):
 	''' Used when there is no object in the sentence '''
-	print("Starting noobj parse")
 	subjGroups = []
 	for token in sentence:
 		if token.dep_.endswith("obj"): 
 			return None 
 		if token.dep_ == "nsubj" or token.dep_ == "nsubjpass":
-			subjGroups.append(descendants(sentence, token, True)[1])
+			subjGroups.append(descendants(sentence, token, False)[1])
 	if len(subjGroups) == 0:
 		return None
+	print(subjGroups)
 	trueSubjPos = len(subjGroups) - 1 # default to the last subj group
 	if len(subjGroups) > 1: # have to find the true subject
 		count = 0

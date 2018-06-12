@@ -4,6 +4,14 @@ import spacy
 
 class TestParseMethods(unittest.TestCase):
 
+
+
+	# What is the regional nickname for Newcastle and its surrounding area?
+	# What network is Newcastle a member of?
+	# Which NFL team represented the AFC at Super Bowl 50?
+	# Which NFL team won Super Bowl 50?
+	# What day was the game played on?
+	# 
 	def setUp(self):
 		nlp = spacy.load('en')
 		self.doc = nlp(u'''In what year did Tesla go to Budapest?
@@ -49,7 +57,8 @@ class TestParseMethods(unittest.TestCase):
 			 ''')
 		self.superBowlTest = ["Denver Broncos", "Levi's Stadium", "Denver Broncos", "Gold", "Golden anniversary", 
 			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L"]
-
+		self.unit = nlp(u"What network is Newcastle a part of?")
+		self.unitAns = ["Eurocities"]
 
 
 	def test_descendants(self):
@@ -76,6 +85,13 @@ class TestParseMethods(unittest.TestCase):
 	def test_superBowl(self):
 		sentences = list(self.superBowl.sents)
 		for sentence, answer in zip(sentences, self.superBowlTest):
+			print(sentence, answer)
+			print(v.parse(sentence, answer), "\n\n")
+		self.assertTrue(True)
+
+	def test_new(self):
+		sentences = list(self.unit.sents)
+		for sentence, answer in zip(sentences, self.unitAns):
 			print(sentence, answer)
 			print(v.parse(sentence, answer), "\n\n")
 		self.assertTrue(True)
