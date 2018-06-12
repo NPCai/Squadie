@@ -15,7 +15,6 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 		sent = sentence[1:]
 	for token in sent:
 		if ancestor.is_ancestor(token) or ancestor == token or token in includes:
-			print(token, token.dep_)
 			descendants += str(token) + " "
 			descendantList.append(token)
 	if (len(descendants) > 0):
@@ -108,7 +107,6 @@ def genericParse(sentence, answer):
 			if obj == True:
 				arg2, _ = descendants(sentence, attrToken, False)
 	if arg1 != None and arg2 != None:
-		print("Generic parse")
 		return Extract(arg1=arg1, arg2=answer, rel=arg2)
 	return None
 
@@ -129,7 +127,6 @@ def invertedParse(sentence, answer):
 		if child.dep_ == "poss" or child.dep_.endswith("obj") or child.dep_ == "acomp":
 			arg2, obj = descendants(sentence, child, True)
 	rel = [token for token in rel if not token in obj]
-	print("Inverted parse")
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
 
@@ -155,7 +152,6 @@ def invertedParseAcomp(sentence, answer):
 			if child.dep_ == "acomp":
 				_, rel = descendants(sentence, child, True)
 		arg2 = answer
-	print("Inverted parse acomp")
 	return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).strip())
 
 
@@ -169,7 +165,6 @@ def noObjParse(sentence, answer):
 			subjGroups.append(descendants(sentence, token, False)[1])
 	if len(subjGroups) == 0:
 		return None
-	print(subjGroups)
 	trueSubjPos = len(subjGroups) - 1 # default to the last subj group
 	if len(subjGroups) > 1: # have to find the true subject
 		count = 0
@@ -180,7 +175,6 @@ def noObjParse(sentence, answer):
 			count = count + 1
 	arg1 = ''.join(str(i) + " " for i in subjGroups[trueSubjPos]).strip()
 	rel = [i for i in sentence if not i in subjGroups[trueSubjPos]]
-	print("no Obj Parse")
 	return Extract(arg1=arg1, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in rel).strip(), arg2=answer)
 
 
@@ -204,7 +198,6 @@ def whoParseNsubj(sentence, answer):
 				break
 
 		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
-		print("Who parse nsubj")
 		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
 
 def whoParseAttr(sentence, answer):
@@ -243,5 +236,4 @@ def whoParseAttr(sentence, answer):
 					_, arg2 = descendants(sentence, child, True)
 					arg1 = answer
 			rel = [token for token in relBad if not token in arg2]
-			print("Who parse attribute")
 			return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).strip(), rel = ''.join(str(i) + " " for i in rel).strip())
