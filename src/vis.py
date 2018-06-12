@@ -61,10 +61,11 @@ def genericParse(sentence, answer):
 	prepChild = None
 	pobjChild = None
 	attrChilds = []
+	if sentence[0].dep_ == "attr":
+		return None
 	for child in sentence.root.children:
 		if child.dep_ == "ccomp":
 			arg2 = descendants(sentence, child, True, sentence.root)[0]
-			print(arg2)
 		# Get the subject
 		if child.dep_ == "nsubj":
 			arg1 = descendants(sentence, child, True)[0]
@@ -85,24 +86,23 @@ def genericParse(sentence, answer):
 			if subject == True:
 				arg1, _ = descendants(sentence, attrToken, False)
 
-	if pobjChild != None: # There was no preposition
-		arg2 = descendants(sentence, pobjChild, True, sentence.root)[0] # TODO: add in optional arguments
+	if prepChild != None: # There was no preposition
+		arg2 = descendants(sentence, prepChild, True, sentence.root)[0] # TODO: add in optional arguments
 
-	elif prepChild != None: # There might be something under the prepChild
-		arg2 = descendants(sentence, prepChild, True, sentence.root)[0]
+	elif pobjChild != None: # There might be something under the prepChild
+		arg2 = descendants(sentence, pobjChild, True, sentence.root)[0]
 
 	else: # No object
 		for attrToken in attrChilds:
 			obj = False
-			print(attrToken)
 			for child in attrToken.children:
 				if child.dep_ == "prep" or child.dep_ == "advmod" or child.dep_ == "amod":
 					obj = True
 			if obj == True:
 				arg2, _ = descendants(sentence, attrToken, False)
-	print("Potential extract", Extract(arg1=arg1, arg2=arg2, rel=answer))
 	if arg1 != None and arg2 != None:
-		return Extract(arg1=arg1, arg2=arg2, rel=answer)
+		print("Generic parse")
+		return Extract(arg1=arg1, arg2=answer, rel=arg2)
 	return None
 
 def invertedParse(sentence, answer):
@@ -122,8 +122,13 @@ def invertedParse(sentence, answer):
 		if child.dep_ == "poss" or child.dep_.endswith("obj"):
 			arg2, obj = descendants(sentence, child, True)
 	rel = [token for token in rel if not token in obj]
+	print("Inverted parse")
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
+def noObjParse(sentence, answer):
+	''' Used when there is no object in the sentence '''
+	for token in sentence:
+		pass
 
 def whoParseNsubj(sentence, answer):
 		''' Parser for "who be" questions '''
