@@ -37,6 +37,19 @@ class TestParseMethods(unittest.TestCase):
 			 In what year did Luther get his degree?''')
 		self.martinLuterTest = ["University of Erfurt", "beerhouse and whorehouse", "at four", "rote learning", "1505"]
 
+		self.superBowl = nlp(u'''Which NFL team represented the AFC at Super Bowl 50?
+			 Where did Super Bowl 50 take place?
+			 Which NFL team won Super Bowl 50?
+			 What color was used to emphasize the 50th anniversary of the Super Bowl?
+			 What was the theme of Super Bowl 50?
+			 What day was the game played on?
+			 What is the AFC short for?
+			 What does AFC stand for?
+			 If Roman numerals were used, what would Super Bowl 50 have been called?
+			 ''')
+		self.superBowlTest = ["Denver Broncos", "Levi's Stadium", "Denver Broncos", "Gold", "Golden anniversary", 
+			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L"]
+
 
 
 	def test_descendants(self):
@@ -58,6 +71,13 @@ class TestParseMethods(unittest.TestCase):
 		for sentence, answer in zip(sentences, self.martinLuterTest):
 			print(sentence, answer)
 			print(v.parse(sentence, answer), "\n")
+		self.assertTrue(True)
+
+	def test_superBowl(self):
+		sentences = list(self.superBowl.sents)
+		for sentence, answer in zip(sentences, self.superBowlTest):
+			print(sentence, answer)
+			print(v.parse(sentence, answer), "\n\n")
 		self.assertTrue(True)
 
 if __name__ == '__main__':
