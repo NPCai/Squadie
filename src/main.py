@@ -4,7 +4,7 @@ import spacy
 
 nlp = spacy.load('en')
 
-with open("../squad2/dev-v2.0.json") as f:
+with open("../squad2/dev-v2.0.json", encoding = "utf8") as f:
 	dataset_json = json.load(f)
 	dataset = dataset_json['data']
 

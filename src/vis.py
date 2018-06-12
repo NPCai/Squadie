@@ -146,7 +146,7 @@ def invertedParseAcomp(sentence, answer):
 		return None
 	else:
 		for child in sentence:
-			if child.dep_ == "nsubj":
+			if child.dep_ == "nsubj" or child.dep_ == "pobj":
 				_, arg1 = descendants(sentence, child, True)
 		for child in sentence:
 			if child.dep_ == "acomp":
