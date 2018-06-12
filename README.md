@@ -3,10 +3,9 @@
 A library for generating OpenIE tuples from QA pairs (e.g. the SQuAD dataset). It makes use of Python's Spacy library's dependency parser and many handcrafted algorithms to create 3-tuples (subject, relation, object tuples). Here are some examples from the SQuAD dataset (answers not shown).
 
 ```
-
-
 What are two complexity classes between L and P?
 <NL and NC,are two complexity classes between,L and P>
+
 What is the prize offered for finding a solution to P=NP?
 <$1,000,000,the prize offered for finding a solution to,P = NP>
 
