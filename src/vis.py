@@ -153,6 +153,7 @@ def whoParseNsubj(sentence, answer):
 		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
 
 def whoParseAttr(sentence, answer):
+	''' parse for who questions where the who is an attribute and not an Nsubj'''
 	arg1 = []
 	arg2 = []
 	rel = []
