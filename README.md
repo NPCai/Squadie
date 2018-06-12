@@ -14,7 +14,24 @@ In what year did Edmond's characterize a "good" algorithm?
 
 In the most basic sense what did a Turing machine emulate?
 <a Turing machine,In the most basic sense emulate,a computer>
+
+In what country is Normandy located?
+<Normandy,In what country located,France>
+
+When were the Normans in Normandy?
+<the Normans,were in Normandy,10th and 11th centuries>
+
+Who was the Norse leader?
+<the Norse leader,was,Rollo>
+
+Who was the duke in the battle of Hastings?
+<William the Conqueror,was the duke in the battle of,Hastings>
+
+Who ruled the duchy of Normandy
+<Richard I,ruled the duchy of,Normandy>
 ```
+
+The parse algorithms cannot handle every type of question. In most cases when this happens parse() will return None. However, in some cases, malformed tuples may be returned.
 
 ### Why?
 
