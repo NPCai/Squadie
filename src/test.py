@@ -46,13 +46,23 @@ class TestParseMethods(unittest.TestCase):
 			 What is the AFC short for?
 			 What does AFC stand for?
 			 If Roman numerals were used, what would Super Bowl 50 have been called?
+			 Which Carolina Panthers player was named Most Valuable Player?
+			 How many appearances have the Denver Broncos made in the Super Bowl?
+			 What year was the Carolina Panthers franchise founded?
+			 What team did the Panthers defeat?
+			 Who did the Broncos prevent from going to the Super Bowl?
+			 Who did the Panthers beat in the NFC Championship Game?
 			 ''')
 		self.superBowlTest = ["Denver Broncos", "Levi's Stadium", "Denver Broncos", "Gold", "Golden anniversary", 
-			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L"]
+			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L", "Cam Newton", "Eight", "1995"
+			 "Arizona Cardinals", "New England Patriots", "Arizona Cardinals"]
+
+		self.oneSentence = nlp(u"What is the AFC short for?")
+		self.oneSentenceTest = ["American Football Conference"]
 
 
 
-	def test_descendants(self):
+	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
 		for sentence, answer in zip(sentences, self.ans):
 			print(sentence, answer)
@@ -78,7 +88,15 @@ class TestParseMethods(unittest.TestCase):
 		for sentence, answer in zip(sentences, self.superBowlTest):
 			print(sentence, answer)
 			print(v.parse(sentence, answer), "\n\n")
+		self.assertTrue(True)'''
+
+	def test_oneSentence(self):
+		sentences = list(self.oneSentence.sents)
+		for sentence, answer in zip(sentences, self.oneSentenceTest):
+			print(sentence, answer)
+			print(v.parse(sentence, answer), "\n\n")
 		self.assertTrue(True)
+
 
 if __name__ == '__main__':
 	unittest.main()

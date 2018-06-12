@@ -41,6 +41,9 @@ class Extract(object):
 
 def parse(sentence, answer):
 	''' Test different parsing algorithms '''
+	i = invertedParseAcomp(sentence, answer)
+	if i != None:
+		return i
 	i = whoParseNsubj(sentence, answer)
 	if i != None:
 		return i
@@ -121,11 +124,25 @@ def invertedParse(sentence, answer):
 		if child.dep_ == "attr" or child.dep_ == "nsubj" and not isWh(child):
 			_, rel = descendants(sentence, child, True) # Create superset
 	for child in rel:
-		if child.dep_ == "poss" or child.dep_.endswith("obj"):
+		if child.dep_ == "poss" or child.dep_.endswith("obj") or child.dep_ == "acomp":
 			arg2, obj = descendants(sentence, child, True)
 	rel = [token for token in rel if not token in obj]
 	print("Inverted parse")
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
+
+
+def invertedParseAcomp(sentence, answer):
+	acomp = True
+	for child in sentence:
+		if child.dep_ == "acomp":
+			acomp = True
+			break
+		else:
+			acomp = False
+
+	if acomp = False:
+		return None
+
 
 def noObjParse(sentence, answer):
 	''' Used when there is no object in the sentence '''
