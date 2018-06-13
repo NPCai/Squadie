@@ -120,8 +120,7 @@ def finalWhatParse(sentence, answer):
 	bes = ["was", "is", "be"]
 	if not sentence[len(sentence) - 1].lower_ in preps:
 		return None
-	if not sentence[1] i
-	n bes:
+	if not sentence[1] in bes:
 		return None
 	verbPos = None
 	count = 0
