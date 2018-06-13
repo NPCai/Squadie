@@ -57,7 +57,9 @@ def parse(sentence, answer):
 	if i == None:
 		i = noObjParse(sentence, answer)
 	if i == None:
-		return threeOrFourParser(sentence, answer, True)
+		i =  threeOrFourParser(sentence, answer, True)
+	if i == None:
+		i = finalWhatParse(sentence, answer)
 	if i.arg1 == None or str(i.arg1) == "" or i.rel == None or str(i.rel) == "" or i.arg2 == None or str(i.arg2) == "":
 		return None
 	return i
@@ -112,6 +114,26 @@ def genericParse(sentence, answer):
 	if arg1 != None and arg2 != None:
 		return Extract(arg1=arg1, arg2=answer, rel=arg2)
 	return None
+
+def finalWhatParse(sentence, answer):
+	preps = ["as", "for", "in", "of", "by"]
+	bes = ["was", "is", "be"]
+	if not sentence[len(sentence) - 1].lower_ in preps:
+		return None
+	if not sentence[1] in bes:
+		return None
+	verbPos = None
+	count = 0
+	for token in sentence:
+		if token.pos_ == "VERB":
+			verbPos = count
+		count = count + 1
+	if verbPos == None or verbPos = len(sentence - 1):
+		return None
+	arg1 = sentence[2:verbPos]
+	rel = sentence[verbPos:len(sentence) - 1]
+	return Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), answer)
+
 
 def invertedParse(sentence, answer):
 	''' Used for when the attr points back to the what i.e. "what be" questions '''
