@@ -23,7 +23,7 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 		return None, None
 
 def isWh(token):
-	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how', "which"]
+	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how']
 
 
 class Extract(object):
@@ -46,9 +46,9 @@ def parse(sentence, answer):
 	i = threeOrFourParser(sentence, answer, False)
 	if i != None:
 		return i
-	i = invertedParseAcomp(sentence, answer)
+	'''	i = invertedParseAcomp(sentence, answer)
 	if i != None:
-		return i
+		return i'''
 	i = whoParseNsubj(sentence, answer)
 	if i != None:
 		return i
@@ -138,7 +138,7 @@ def invertedParse(sentence, answer):
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
 
-def invertedParseAcomp(sentence, answer):
+	'''def invertedParseAcomp(sentence, answer):
 	# Inverted parse algorithm when the child is an adjectival complement
 	arg1 = []
 	arg2 = ""
@@ -154,6 +154,7 @@ def invertedParseAcomp(sentence, answer):
 	if acomp == False:
 		return None
 	else:
+		print("\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM",)
 		for child in sentence:
 			if child.dep_ == "nsubj" or child.dep_ == "pobj" and not isWh(child):
 				_, arg1 = descendants(sentence, child, True)
@@ -161,8 +162,7 @@ def invertedParseAcomp(sentence, answer):
 			if child.dep_ == "acomp":
 				_, rel = descendants(sentence, child, True)
 		arg2 = answer
-	return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).strip())
-
+	return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).strip())'''
 
 def noObjParse(sentence, answer):
 	''' Used when there is no object in the sentence '''
