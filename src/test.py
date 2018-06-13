@@ -12,7 +12,7 @@ class TestParseMethods(unittest.TestCase):
 	# Which NFL team won Super Bowl 50?
 	# What day was the game played on?
 	##### What is the United States busiest commercial port?
-	
+
 
 
 	def setUp(self):
@@ -68,8 +68,8 @@ class TestParseMethods(unittest.TestCase):
 			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L", "Cam Newton", "Eight", "1995"
 			 "Arizona Cardinals", "New England Patriots", "Arizona Cardinals"]
 
-		self.oneSentence = nlp(u"What is the AFC short for?")
-		self.oneSentenceTest = ["American Football Conference"]
+		self.oneSentence = nlp(u"Who was the hostage?")
+		self.oneSentenceTest = ["Jackson Kustec"]
 
 
 	'''def test_descendants(self):

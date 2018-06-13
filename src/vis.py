@@ -43,7 +43,7 @@ def parse(sentence, answer):
 	''' Test different parsing algorithms '''
 	''' Each algorithm has a check that determines
 	if it should be used '''
-	i = threeOrFourParser(sentence, answer)
+	i = threeOrFourParser(sentence, answer, False)
 	if i != None:
 		return i
 	i = invertedParseAcomp(sentence, answer)
@@ -62,7 +62,10 @@ def parse(sentence, answer):
 	if i != None:
 		return i
 	i = noObjParse(sentence, answer)
-	return i
+	if i != None:
+		return i
+	if i == None:
+		return threeOrFourParser(sentence, answer, True)
 
 def genericParse(sentence, answer):
 	''' Generic catch-most parse algorithm for generating tuples '''
@@ -244,20 +247,18 @@ def whoParseAttr(sentence, answer):
 			rel = [token for token in relBad if not token in arg2]
 			return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).strip(), rel = ''.join(str(i) + " " for i in rel).strip())
 
-def threeOrFourParser(sentence, answer):
-	if len(sentence.split()) >= 5:
+def threeOrFourParser(sentence, answer, force):
+	arg1 = ""
+	arg2 = []
+	rel = ""
+	if len(sentence.text.split()) >= 5 and force == False:
 		return None
 	else:
+		_, arg2 = descendants(sentence, sentence.root, True)
+		print(arg2)
+		arg2 = [token for token in arg2 if token != sentence.root]
 		for child in sentence:
-			if child.pos_ == "VERB"
-
-
-
-def whichParser(sentence, answer):
-	pass
-
-
-
-
-
-
+			if child.pos_ == "VERB":
+				rel = child
+		arg1 = answer
+	return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).replace("?","").strip(), rel = rel)
