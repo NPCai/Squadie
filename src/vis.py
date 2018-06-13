@@ -41,6 +41,8 @@ class Extract(object):
 
 def parse(sentence, answer):
 	''' Test different parsing algorithms '''
+	''' Each algorithm has a check that determines
+	if it should be used '''
 	i = invertedParseAcomp(sentence, answer)
 	if i != None:
 		return i
@@ -131,6 +133,7 @@ def invertedParse(sentence, answer):
 
 
 def invertedParseAcomp(sentence, answer):
+	# Inverted parse algorithm when the child is an adjectival complement
 	arg1 = []
 	arg2 = ""
 	rel = []
