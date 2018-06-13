@@ -43,29 +43,6 @@ def parse(sentence, answer):
 	''' Test different parsing algorithms '''
 	''' Each algorithm has a check that determines
 	if it should be used '''
-<<<<<<< HEAD
-	i = threeOrFourParser(sentence, answer, False)
-	if i != None:
-		return i
-	'''	i = invertedParseAcomp(sentence, answer)
-	if i != None:
-		return i'''
-	i = whoParseNsubj(sentence, answer)
-	if i != None:
-		return i
-	i = whoParseAttr(sentence, answer)
-	if i != None:
-		return i
-	i = genericParse(sentence, answer)
-	if i != None:
-		return i
-	i = invertedParse(sentence, answer)
-	if i != None:
-		return i
-	i = noObjParse(sentence, answer)
-	if i != None:
-		return i
-=======
 	i = whichParse(sentence, answer)
 	if i == None:
 		i = threeOrFourParser(sentence, answer, False)
@@ -79,7 +56,6 @@ def parse(sentence, answer):
 		i = invertedParse(sentence, answer)
 	if i == None:
 		i = noObjParse(sentence, answer)
->>>>>>> 7b0b80e99752c3ede364522991248af04b19d24b
 	if i == None:
 		return threeOrFourParser(sentence, answer, True)
 	if i.arg1 == None or str(i.arg1) == "" or i.rel == None or str(i.rel) == "" or i.arg2 == None or str(i.arg2) == "":
@@ -245,6 +221,8 @@ def whoParseNsubj(sentence, answer):
 			if child.dep_ == "pobj":
 				arg2, relBad = descendants(sentence, child, True) # Gets just the relBad children
 				break
+			elif child.dep_ == "dobj":
+				arg2, relBad = descendants(sentence, child, True)
 
 		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
 		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
