@@ -23,4 +23,11 @@ for topic in dataset:
 						shortAnswer = ans
 						successes = successes + 1
 				sentence = list(nlp(span['question']).sents)[0]
-				print(v.parse(sentence, shortAnswer))
+				x = v.parse(sentence, shortAnswer)
+				if x == None:
+					failures = failures + 1
+				else:
+					successes = successes + 1
+					print(x)
+print("Number of failures: ", failures, "\n")
+print("Number of successes: ", successes, "\n")
