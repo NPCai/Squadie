@@ -221,6 +221,8 @@ def whichParse(sentence, answer):
 	if objGroup == None or subjGroup == None:
 		return None
 	relGroup = [i for i in relGroup if ((not i in subjGroup) and (not i in objGroup))]
+	relGroup = [token for token in relGroup if token != sentence[0]]
+	print("WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n")
 	return Extract(arg1=answer, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in relGroup).strip(), arg2=objStr)
 
 
