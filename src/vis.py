@@ -120,7 +120,8 @@ def finalWhatParse(sentence, answer):
 	bes = ["was", "is", "be"]
 	if not sentence[len(sentence) - 1].lower_ in preps:
 		return None
-	if not sentence[1] in bes:
+	if not sentence[1] i
+	n bes:
 		return None
 	verbPos = None
 	count = 0
@@ -128,11 +129,11 @@ def finalWhatParse(sentence, answer):
 		if token.pos_ == "VERB":
 			verbPos = count
 		count = count + 1
-	if verbPos == None or verbPos = len(sentence - 1):
+	if verbPos == None or verbPos == len(sentence - 1):
 		return None
 	arg1 = sentence[2:verbPos]
 	rel = sentence[verbPos:len(sentence) - 1]
-	return Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), answer)
+	return Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), arg2=answer)
 
 
 def invertedParse(sentence, answer):
@@ -155,7 +156,7 @@ def invertedParse(sentence, answer):
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
 
-	def invertedParseAcomp(sentence, answer):
+def invertedParseAcomp(sentence, answer):
 	# Inverted parse algorithm when the child is an adjectival complement
 	arg1 = []
 	arg2 = ""

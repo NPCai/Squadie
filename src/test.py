@@ -68,8 +68,8 @@ class TestParseMethods(unittest.TestCase):
 			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L", "Cam Newton", "Eight", "1995"
 			 "Arizona Cardinals", "New England Patriots", "Arizona Cardinals"]
 
-		self.oneSentence = nlp(u"What is as important as identifying plague symptoms?")
-		self.oneSentenceTest = ["epidemiological account of the plague"]
+		self.oneSentence = nlp(u"What is the Rhine Gorge known for?")
+		self.oneSentenceTest = ["castles"]
 
 
 	'''def test_descendants(self):
