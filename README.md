@@ -47,3 +47,8 @@ The parse algorithms cannot handle every type of question. In most cases when th
 ## Overview
 
 The main library is in vis.py in src. This file contains the algorithms that takes a QA pair and creates a logical 3-tuple. The canvas.py provides a helpful illustration of a dependency tree. See the subdirectories for more READMEs.
+
+## Dependencies 
+
+* spacy
+* allennlp
