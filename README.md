@@ -46,8 +46,4 @@ The parse algorithms cannot handle every type of question. In most cases when th
 
 ## Overview
 
-The main library is in vis.py in src. This file contains the algorithms that takes a QA pair and creates a logical 3-tuple. The canvas.py provides a helpful illustration of a dependency tree.
-
-## Dependencies
-
-The spaCy library is used for their pre-trained word vectors, deep learning integration, and most importantly the dependency parser. The neural aspect of this project was done using pytorch.
+The main library is in vis.py in src. This file contains the algorithms that takes a QA pair and creates a logical 3-tuple. The canvas.py provides a helpful illustration of a dependency tree. See the subdirectories for more READMEs.
