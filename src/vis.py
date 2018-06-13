@@ -133,7 +133,7 @@ def invertedParse(sentence, answer):
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
 
-	'''def invertedParseAcomp(sentence, answer):
+	def invertedParseAcomp(sentence, answer):
 	# Inverted parse algorithm when the child is an adjectival complement
 	arg1 = []
 	arg2 = ""
@@ -149,7 +149,6 @@ def invertedParse(sentence, answer):
 	if acomp == False:
 		return None
 	else:
-		print("\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM","\n", "I'M USING THE ACOMP ALGORITHM",)
 		for child in sentence:
 			if child.dep_ == "nsubj" or child.dep_ == "pobj" and not isWh(child):
 				_, arg1 = descendants(sentence, child, True)
@@ -157,7 +156,7 @@ def invertedParse(sentence, answer):
 			if child.dep_ == "acomp":
 				_, rel = descendants(sentence, child, True)
 		arg2 = answer
-	return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).strip())'''
+	return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).strip())
 
 def noObjParse(sentence, answer):
 	''' Used when there is no object in the sentence '''
@@ -209,6 +208,8 @@ def whoParseNsubj(sentence, answer):
 		arg2 = ""
 		rel = []
 		relBad = []
+		pobj = True
+		dobj = True
 
 		if sentence[0].dep_ != "nsubj": # Checking to make sure this is the right algorithm to use
 			return None
@@ -220,9 +221,26 @@ def whoParseNsubj(sentence, answer):
 		for child in rel:
 			if child.dep_ == "pobj":
 				arg2, relBad = descendants(sentence, child, True) # Gets just the relBad children
+				pobj = True
 				break
-			elif child.dep_ == "dobj":
-				arg2, relBad = descendants(sentence, child, True)
+			else:
+				pobj = False
+			
+		if pobj == False:
+			for child in rel:
+				if child.dep_ == "dobj":
+					arg2, relBad = descendants(sentence, child, True)
+					dobj = True
+					break
+				else:
+					dobj = False
+
+		if dobj == False:
+			for child in rel:
+				if child.dep_ == "nsubj":
+					arg2, relBad = descendants(sentence, child, True)
+					break
+
 
 		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
 		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
