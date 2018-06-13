@@ -43,29 +43,24 @@ def parse(sentence, answer):
 	''' Test different parsing algorithms '''
 	''' Each algorithm has a check that determines
 	if it should be used '''
-	i = threeOrFourParser(sentence, answer, False)
-	if i != None:
-		return i
-	i = invertedParseAcomp(sentence, answer)
-	if i != None:
-		return i
-	i = whoParseNsubj(sentence, answer)
-	if i != None:
-		return i
-	i = whoParseAttr(sentence, answer)
-	if i != None:
-		return i
-	i = genericParse(sentence, answer)
-	if i != None:
-		return i
-	i = invertedParse(sentence, answer)
-	if i != None:
-		return i
-	i = noObjParse(sentence, answer)
-	if i != None:
-		return i
+	i = whichParse(sentence, answer)
+	if i == None:
+		i = threeOrFourParser(sentence, answer, False)
+	if i == None:
+		i = whoParseNsubj(sentence, answer)
+	if i == None:
+		i = whoParseAttr(sentence, answer)
+	if i == None:
+		i = genericParse(sentence, answer)
+	if i == None:
+		i = invertedParse(sentence, answer)
+	if i == None:
+		i = noObjParse(sentence, answer)
 	if i == None:
 		return threeOrFourParser(sentence, answer, True)
+	if i.arg1 == None or str(i.arg1) == "" or i.rel == None or str(i.rel) == "" or i.arg2 == None or str(i.arg2) == "":
+		return None
+	return i
 
 def genericParse(sentence, answer):
 	''' Generic catch-most parse algorithm for generating tuples '''
@@ -185,6 +180,27 @@ def noObjParse(sentence, answer):
 	arg1 = ''.join(str(i) + " " for i in subjGroups[trueSubjPos]).strip()
 	rel = [i for i in sentence if not i in subjGroups[trueSubjPos]]
 	return Extract(arg1=arg1, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in rel).strip(), arg2=answer)
+
+def whichParse(sentence, answer):
+	''' Parser for questions that start with which '''
+	if sentence[0].lower_ != "which" or sentence[1].dep_ == "nsubj":
+		return None
+	subjGroup = None
+	_, relGroup = descendants(sentence, sentence.root, True)
+	if relGroup == None:
+		return None
+	objGroup = None
+	objStr = None
+	for token in sentence:
+		if token.dep_ == "nsubj" and subjGroup == None:
+			print("nsubj")
+			_, subjGroup = descendants(sentence, token, True)
+		if token.dep_.endswith("obj"):
+			objStr, objGroup = descendants(sentence, token, True)
+	if objGroup == None or subjGroup == None:
+		return None
+	relGroup = [i for i in relGroup if ((not i in subjGroup) and (not i in objGroup))]
+	return Extract(arg1=answer, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in relGroup).strip(), arg2=objStr)
 
 
 def whoParseNsubj(sentence, answer):
