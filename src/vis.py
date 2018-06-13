@@ -23,7 +23,7 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 		return None, None
 
 def isWh(token):
-	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how']
+	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how', "which"]
 
 
 class Extract(object):
