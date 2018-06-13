@@ -35,6 +35,11 @@ class Extract(object):
 	def __str__(self):
 		return "<" + str(self.arg1) + "," + str(self.rel) + "," + str(self.arg2) + ">"
 
+def badExtract(i):
+	if i == None or i.arg1 == None or str(i.arg1) == "" or i.rel == None or str(i.rel) == "" or i.arg2 == None or str(i.arg2) == "":
+		return True
+	return False
+
 ####################################################
 ################# PARSE ALGORITHMS #################
 ####################################################
@@ -44,23 +49,23 @@ def parse(sentence, answer):
 	''' Each algorithm has a check that determines
 	if it should be used '''
 	i = whichParse(sentence, answer)
-	if i == None:
+	if badExtract(i):
 		i = threeOrFourParser(sentence, answer, False)
-	if i == None:
+	if badExtract(i):
 		i = whoParseNsubj(sentence, answer)
-	if i == None:
+	if badExtract(i):
 		i = whoParseAttr(sentence, answer)
-	if i == None:
+	if badExtract(i):
 		i = genericParse(sentence, answer)
-	if i == None:
+	if badExtract(i):
 		i = invertedParse(sentence, answer)
-	if i == None:
+	if badExtract(i):
 		i = noObjParse(sentence, answer)
-	if i == None:
+	if badExtract(i):
 		i =  threeOrFourParser(sentence, answer, True)
-	if i == None:
+	if badExtract(i):
 		i = finalWhatParse(sentence, answer)
-	if i.arg1 == None or str(i.arg1) == "" or i.rel == None or str(i.rel) == "" or i.arg2 == None or str(i.arg2) == "":
+	if badExtract(i):
 		return None
 	return i
 
@@ -116,11 +121,14 @@ def genericParse(sentence, answer):
 	return None
 
 def finalWhatParse(sentence, answer):
+	print("Final what parse")
 	preps = ["as", "for", "in", "of", "by"]
 	bes = ["was", "is", "be"]
 	if not sentence[len(sentence) - 1].lower_ in preps:
+		print("Returnin none 1")
 		return None
 	if not sentence[1] in bes:
+		print("Returnin none 2")
 		return None
 	verbPos = None
 	count = 0
@@ -129,10 +137,13 @@ def finalWhatParse(sentence, answer):
 			verbPos = count
 		count = count + 1
 	if verbPos == None or verbPos == len(sentence - 1):
+		print("Returnin none 3")
 		return None
 	arg1 = sentence[2:verbPos]
 	rel = sentence[verbPos:len(sentence) - 1]
-	return Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), arg2=answer)
+	x =  Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), arg2=answer)
+	print(x)
+	return x
 
 
 def invertedParse(sentence, answer):
