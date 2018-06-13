@@ -248,5 +248,6 @@ def threeOrFourParser(sentence, answer):
 	if len(sentence.split()) >= 5:
 		return None
 	else:
-		
+		for child in sentence:
+			if child.pos_ == "VERB"
 
