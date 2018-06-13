@@ -133,7 +133,7 @@ def invertedParse(sentence, answer):
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
 
-	def invertedParseAcomp(sentence, answer):
+def invertedParseAcomp(sentence, answer):
 	# Inverted parse algorithm when the child is an adjectival complement
 	arg1 = []
 	arg2 = ""
