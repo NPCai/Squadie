@@ -43,6 +43,9 @@ def parse(sentence, answer):
 	''' Test different parsing algorithms '''
 	''' Each algorithm has a check that determines
 	if it should be used '''
+	i = threeOrFourParser(sentence, answer)
+	if i != None:
+		return i
 	i = invertedParseAcomp(sentence, answer)
 	if i != None:
 		return i
@@ -240,3 +243,5 @@ def whoParseAttr(sentence, answer):
 					arg1 = answer
 			rel = [token for token in relBad if not token in arg2]
 			return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).strip(), rel = ''.join(str(i) + " " for i in rel).strip())
+
+def threeOrFourParser(sentence, answer):
