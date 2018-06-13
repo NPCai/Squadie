@@ -16,12 +16,12 @@ for topic in dataset:
 			if not span['is_impossible'] and len(span['question']) < 60:
 				print(span['question'])
 				shortAnswer = None
-				failures++
+				failures = failures + 1
 				for answerBlob in span['answers']:
 					ans = answerBlob['text']
 					if shortAnswer == None or len(ans) < len(shortAnswer):
 						shortAnswer = ans
-						successes++
+						successes = successes + 1
 				sentence = list(nlp(span['question']).sents)[0]
 				print(v.parse(sentence, shortAnswer))
 print("Number of failures: ", failures, "\n")
