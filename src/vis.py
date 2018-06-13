@@ -245,3 +245,8 @@ def whoParseAttr(sentence, answer):
 			return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).strip(), rel = ''.join(str(i) + " " for i in rel).strip())
 
 def threeOrFourParser(sentence, answer):
+	if len(sentence.split()) >= 5:
+		return None
+	else:
+		
+
