@@ -18,7 +18,6 @@ for topic in dataset:
 			if not span['is_impossible'] and len(span['question']) < 60:
 				print(span['question'])
 				shortAnswer = None
-				failures = failures + 1
 				for answerBlob in span['answers']:
 					ans = answerBlob['text']
 					if shortAnswer == None or len(ans) < len(shortAnswer):
@@ -32,7 +31,8 @@ for topic in dataset:
 				else:
 					successes = successes + 1
 					print(x)
-print("Number of failures: ", failures, "\n")
+print("\n")
+print("Number of failures: ", failures)
 print("Number of successes: ", successes, "\n")
 
 input("Press enter to see failures...\n")

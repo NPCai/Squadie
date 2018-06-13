@@ -23,7 +23,7 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 		return None, None
 
 def isWh(token):
-	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how', "which"]
+	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how']
 
 
 class Extract(object):
@@ -155,7 +155,7 @@ def invertedParse(sentence, answer):
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
 
-def invertedParseAcomp(sentence, answer):
+	def invertedParseAcomp(sentence, answer):
 	# Inverted parse algorithm when the child is an adjectival complement
 	arg1 = []
 	arg2 = ""
@@ -179,7 +179,6 @@ def invertedParseAcomp(sentence, answer):
 				_, rel = descendants(sentence, child, True)
 		arg2 = answer
 	return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).strip())
-
 
 def noObjParse(sentence, answer):
 	''' Used when there is no object in the sentence '''
@@ -231,6 +230,8 @@ def whoParseNsubj(sentence, answer):
 		arg2 = ""
 		rel = []
 		relBad = []
+		pobj = True
+		dobj = True
 
 		if sentence[0].dep_ != "nsubj": # Checking to make sure this is the right algorithm to use
 			return None
@@ -242,7 +243,26 @@ def whoParseNsubj(sentence, answer):
 		for child in rel:
 			if child.dep_ == "pobj":
 				arg2, relBad = descendants(sentence, child, True) # Gets just the relBad children
+				pobj = True
 				break
+			else:
+				pobj = False
+			
+		if pobj == False:
+			for child in rel:
+				if child.dep_ == "dobj":
+					arg2, relBad = descendants(sentence, child, True)
+					dobj = True
+					break
+				else:
+					dobj = False
+
+		if dobj == False:
+			for child in rel:
+				if child.dep_ == "nsubj":
+					arg2, relBad = descendants(sentence, child, True)
+					break
+
 
 		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
 		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
