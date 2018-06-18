@@ -50,8 +50,6 @@ def parse(sentence, answer):
 	if it should be used '''
 	i = whichParse(sentence, answer)
 	if badExtract(i):
-		i = finalWhatParse(sentence, answer)
-	if badExtract(i):
 		i = threeOrFourParser(sentence, answer, False)
 	if badExtract(i):
 		i = whoParseNsubj(sentence, answer)
@@ -63,6 +61,8 @@ def parse(sentence, answer):
 		i = invertedParse(sentence, answer)
 	if badExtract(i):
 		i = noObjParse(sentence, answer)
+	if badExtract(i):
+		i = finalWhatParse(sentence, answer)
 	if badExtract(i):
 		i =  threeOrFourParser(sentence, answer, True)
 	if badExtract(i):
@@ -138,15 +138,13 @@ def finalWhatParse(sentence, answer):
 		if token.pos_ == "VERB":
 			verbPos = count
 		count = count + 1
-	print(count)
-	print(len(sentence))
 	if verbPos == None or verbPos == len(sentence) - 3:
 		print("Returnin none 3")
 		return None
 	arg1 = sentence[2:verbPos]
 	rel = sentence[verbPos:len(sentence) - 1]
 	x =  Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), arg2=answer)
-	print("final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", )
+	print("final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", )
 	return x
 
 
@@ -168,7 +166,7 @@ def invertedParse(sentence, answer):
 			arg2, obj = descendants(sentence, child, True)
 	rel = [token for token in rel if not token in obj]
 	print("Inverted parse")
-	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
+	return Extract(arg1 = answer, rel=''.join(str(i) + " " for i in rel).strip(), arg2 = arg2)
 
 
 def invertedParseAcomp(sentence, answer):
