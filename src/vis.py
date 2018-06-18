@@ -60,9 +60,9 @@ def parse(sentence, answer):
 	if badExtract(i):
 		i = invertedParse(sentence, answer)
 	if badExtract(i):
-		i = noObjParse(sentence, answer)
-	if badExtract(i):
 		i = finalWhatParse(sentence, answer)
+	if badExtract(i):
+		i = noObjParse(sentence, answer)
 	if badExtract(i):
 		i =  threeOrFourParser(sentence, answer, True)
 	if badExtract(i):
