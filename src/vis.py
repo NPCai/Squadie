@@ -249,8 +249,7 @@ def whoParseNsubj(sentence, answer):
 		relBad = []
 		pobj = True
 		dobj = True
-
-		if sentence[0].dep_ != "nsubj": # Checking to make sure this is the right algorithm to use
+		if sentence[0].dep_ != "nsubj" or sentence[0].lower_ != "who": # Checking to make sure this is the right algorithm to use
 			return None
 		else:
 			arg1 = answer # arg1 just replace the who with the answer
