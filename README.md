@@ -51,4 +51,4 @@ The main library is in vis.py in src. This file contains the algorithms that tak
 ## Dependencies 
 
 * spacy
-* allennlp
+* unittest
