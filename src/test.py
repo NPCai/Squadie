@@ -6,12 +6,7 @@ class TestParseMethods(unittest.TestCase):
 
 
 	'''TODO'''
-	# What is the regional nickname for Newcastle and its surrounding area?
-	# What network is Newcastle a member of?
-	# Which NFL team represented the AFC at Super Bowl 50?
-	# Which NFL team won Super Bowl 50?
-	# What day was the game played on?
-	##### What is the United States busiest commercial port?
+	
 
 
 

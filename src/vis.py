@@ -50,6 +50,8 @@ def parse(sentence, answer):
 	if it should be used '''
 	i = whichParse(sentence, answer)
 	if badExtract(i):
+		i = finalWhatParse(sentence, answer)
+	if badExtract(i):
 		i = threeOrFourParser(sentence, answer, False)
 	if badExtract(i):
 		i = whoParseNsubj(sentence, answer)
@@ -63,8 +65,6 @@ def parse(sentence, answer):
 		i = noObjParse(sentence, answer)
 	if badExtract(i):
 		i =  threeOrFourParser(sentence, answer, True)
-	if badExtract(i):
-		i = finalWhatParse(sentence, answer)
 	if badExtract(i):
 		return None
 	return i
@@ -117,6 +117,7 @@ def genericParse(sentence, answer):
 			if obj == True:
 				arg2, _ = descendants(sentence, attrToken, False)
 	if arg1 != None and arg2 != None:
+		print("Generic parse")
 		return Extract(arg1=arg1, arg2=answer, rel=arg2)
 	return None
 
@@ -124,6 +125,10 @@ def finalWhatParse(sentence, answer):
 	print("Final what parse")
 	preps = ["as", "for", "in", "of", "by"]
 	bes = ["was", "is", "be"]
+	print("")
+	print(sentence[1])
+	print("")
+
 	if not sentence[len(sentence) - 1].lower_ in preps:
 		print("Returnin none 1")
 		return None
@@ -142,7 +147,7 @@ def finalWhatParse(sentence, answer):
 	arg1 = sentence[2:verbPos]
 	rel = sentence[verbPos:len(sentence) - 1]
 	x =  Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), arg2=answer)
-	print(x)
+	print("final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", )
 	return x
 
 
@@ -163,6 +168,7 @@ def invertedParse(sentence, answer):
 		if child.dep_ == "poss" or child.dep_.endswith("obj") or child.dep_ == "acomp":
 			arg2, obj = descendants(sentence, child, True)
 	rel = [token for token in rel if not token in obj]
+	print("Inverted parse")
 	return Extract(arg1=answer, arg2=arg2, rel=''.join(str(i) + " " for i in rel).strip())
 
 
@@ -211,6 +217,7 @@ def noObjParse(sentence, answer):
 			count = count + 1
 	arg1 = ''.join(str(i) + " " for i in subjGroups[trueSubjPos]).strip()
 	rel = [i for i in sentence if not i in subjGroups[trueSubjPos]]
+	print("noObj parse")
 	return Extract(arg1=arg1, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in rel).strip(), arg2=answer)
 
 def whichParse(sentence, answer):
@@ -233,7 +240,7 @@ def whichParse(sentence, answer):
 		return None
 	relGroup = [i for i in relGroup if ((not i in subjGroup) and (not i in objGroup))]
 	relGroup = [token for token in relGroup if token != sentence[0]]
-	print("WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n","WE ARE USING WHICH PARSE", "\n")
+	print("Which parse")
 	return Extract(arg1=answer, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in relGroup).strip(), arg2=objStr)
 
 
@@ -278,6 +285,7 @@ def whoParseNsubj(sentence, answer):
 
 
 		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
+		print("Who parse nsubj")
 		return Extract(arg1 = answer, arg2 = arg2, rel = ''.join(str(i) + " " for i in rel).replace("?","").strip()) # Extracts all the juicy info
 
 def whoParseAttr(sentence, answer):
@@ -316,6 +324,7 @@ def whoParseAttr(sentence, answer):
 					_, arg2 = descendants(sentence, child, True)
 					arg1 = answer
 			rel = [token for token in relBad if not token in arg2]
+			print("Who parse attribute")
 			return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).strip(), rel = ''.join(str(i) + " " for i in rel).strip())
 
 def threeOrFourParser(sentence, answer, force):
@@ -326,10 +335,10 @@ def threeOrFourParser(sentence, answer, force):
 		return None
 	else:
 		_, arg2 = descendants(sentence, sentence.root, True)
-		print(arg2)
 		arg2 = [token for token in arg2 if token != sentence.root]
 		for child in sentence:
 			if child.pos_ == "VERB":
 				rel = child
 		arg1 = answer
+	print("Three or four parser")
 	return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).replace("?","").strip(), rel = rel)
