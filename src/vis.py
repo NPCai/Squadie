@@ -125,14 +125,11 @@ def finalWhatParse(sentence, answer):
 	print("Final what parse")
 	preps = ["as", "for", "in", "of", "by"]
 	bes = ["was", "is", "be"]
-	print("")
-	print(sentence[1])
-	print("")
 
-	if not sentence[len(sentence) - 1].lower_ in preps:
+	if not sentence[len(sentence) - 3].lower_ in preps: # Has to be - 3 because the question mark counts as part of the array so you have to account for that
 		print("Returnin none 1")
 		return None
-	if not sentence[1] in bes:
+	if not sentence[1].lower_ in bes:
 		print("Returnin none 2")
 		return None
 	verbPos = None
@@ -141,7 +138,9 @@ def finalWhatParse(sentence, answer):
 		if token.pos_ == "VERB":
 			verbPos = count
 		count = count + 1
-	if verbPos == None or verbPos == len(sentence - 1):
+	print(count)
+	print(len(sentence))
+	if verbPos == None or verbPos == len(sentence) - 3:
 		print("Returnin none 3")
 		return None
 	arg1 = sentence[2:verbPos]
