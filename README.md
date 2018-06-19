@@ -2,8 +2,8 @@
 
 A library for generating OpenIE tuples from QA pairs (e.g. the SQuAD dataset). It makes use of Spacy's dependency parser and many handcrafted algorithms to create 3-tuples (subject, relation, object tuples). 
 
-## Usage
-From the /src directory...
+## Example Usage
+From the /src directory:
 ```python
 import vis
 import spacy
@@ -14,8 +14,8 @@ ans = ['NL and NC']
 sentences = list(doc)
 
 for sentence, answer in zip(sentences, ans):
-			print(sentence, answer)
-			print(v.parse(sentence, answer), "\n\n")
+	print(sentence, answer)
+	print(v.parse(sentence, answer), "\n\n")
 ```
 Output:
 ```
