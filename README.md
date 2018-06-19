@@ -2,6 +2,27 @@
 
 A library for generating OpenIE tuples from QA pairs (e.g. the SQuAD dataset). It makes use of Spacy's dependency parser and many handcrafted algorithms to create 3-tuples (subject, relation, object tuples). 
 
+## Example Usage
+From the /src directory:
+```python
+import vis
+import spacy
+
+nlp = spacy.load('en')
+doc = nlp(n'What are two complexity classes between L and P?')
+ans = ['NL and NC']
+sentences = list(doc)
+
+for sentence, answer in zip(sentences, ans):
+	print(sentence, answer)
+	print(vis.parse(sentence, answer), "\n\n")
+```
+Output:
+```
+What are two complexity classes between L and P? NL and NC
+<NL and NC,are two complexity classes between,L and P>
+```
+
 ## Why?
 
 Like in other areas of NLP, we expect neural networks to improve over state-of-the-art rule-based systems in OpenIE. However, neural open information extraction has been hampered by a lack of training data. 
@@ -51,4 +72,4 @@ The main library is in vis.py in src. This file contains the algorithms that tak
 ## Dependencies 
 
 * spacy
-* allennlp
+* unittest

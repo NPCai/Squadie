@@ -122,10 +122,9 @@ def genericParse(sentence, answer):
 	return None
 
 def finalWhatParse(sentence, answer):
-	print("Final what parse")
 	preps = ["as", "for", "in", "of", "by"]
 	bes = ["was", "is", "be"]
-	if not sentence[len(sentence) - 2].lower_ in preps: # Has to be - 3 because the question mark counts as part of the array so you have to account for that
+	if not sentence[len(sentence) - 2].lower_ in preps: # Has to be - 2 because the question mark counts as part of the array so you have to account for that
 		print("Returnin none 1")
 		return None
 	if not sentence[1].lower_ in bes:
@@ -142,8 +141,8 @@ def finalWhatParse(sentence, answer):
 		return None
 	arg1 = sentence[2:verbPos]
 	rel = sentence[verbPos:len(sentence) - 1]
+	print("Final what parse")
 	x =  Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), arg2=answer)
-	print("final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", "final what parse", )
 	return x
 
 def invertedParse(sentence, answer):
