@@ -15,7 +15,7 @@ sentences = list(doc)
 
 for sentence, answer in zip(sentences, ans):
 	print(sentence, answer)
-	print(v.parse(sentence, answer), "\n\n")
+	print(vis.parse(sentence, answer), "\n\n")
 ```
 Output:
 ```
