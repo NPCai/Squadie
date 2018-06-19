@@ -25,7 +25,6 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 def isWh(token):
 	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how']
 
-
 class Extract(object):
 
 	def __init__(self, arg1=None, rel=None, arg2=None):
@@ -141,8 +140,8 @@ def finalWhatParse(sentence, answer):
 		return None
 	arg1 = sentence[2:verbPos]
 	rel = sentence[verbPos:len(sentence) - 1]
-	print("Final what parse")
 	x =  Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), arg2=answer)
+	print("Final what parse", x)
 	return x
 
 def invertedParse(sentence, answer):
