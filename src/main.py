@@ -16,14 +16,16 @@ for topic in dataset:
 	for blob in topic['paragraphs']:
 		for span in blob['qas']:
 			if not span['is_impossible'] and len(span['question']) < 60:
-				print(span['question'])
+				q = span['question']
+				if not q.endswith("?"):
+					q += "?"
 				shortAnswer = None
 				for answerBlob in span['answers']:
 					ans = answerBlob['text']
 					if shortAnswer == None or len(ans) < len(shortAnswer):
 						shortAnswer = ans
 						successes = successes + 1
-				sentence = list(nlp(span['question']).sents)[0]
+				sentence = list(nlp(q).sents)[0]
 				x = v.parse(sentence, shortAnswer)
 				if x == None:
 					failures = failures + 1
