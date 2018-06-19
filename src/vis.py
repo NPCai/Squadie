@@ -157,6 +157,8 @@ def invertedParse(sentence, answer):
 	for child in sentence.root.children:
 		if child.dep_ == "attr" or child.dep_ == "nsubj" or child.dep_ == "ccomp" and not isWh(child):
 			_, rel = descendants(sentence, child, True) # Create superset
+	if rel == None:
+		return None
 	for child in rel:
 		if child.dep_ == "poss" or child.dep_.endswith("obj") or child.dep_ == "acomp":
 			arg2, obj = descendants(sentence, child, True)
