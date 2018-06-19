@@ -16,7 +16,7 @@ with open(TRAINFILE, encoding = "utf8") as f:
 
 failList = []
 
-with open(OUTFILE, "w") as outFile:
+with open(OUTFILE, "w", encoding = "utf8") as outFile:
 	squadieJson = {"version": VERSION, "data": []}
 	for topic in dataset: # Loads each topic into a dictionary
 		squadieTopic = {"title": topic['title'], "paragraphs": []}
