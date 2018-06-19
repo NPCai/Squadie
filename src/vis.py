@@ -141,7 +141,7 @@ def finalWhatParse(sentence, answer):
 	arg1 = sentence[2:verbPos]
 	rel = sentence[verbPos:len(sentence) - 1]
 	x =  Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), rel=''.join(str(i) + " " for i in rel).strip(), arg2=answer)
-	print("Final what parse", x)
+	print("Final what parse")
 	return x
 
 def invertedParse(sentence, answer):
