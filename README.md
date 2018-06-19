@@ -1,4 +1,4 @@
-# Squadie [:headphones:](https://www.youtube.com/watch?v=yGl0rS-ZcV4)
+# Squadie    [:headphones:](https://www.youtube.com/watch?v=yGl0rS-ZcV4)
 
 A library for generating OpenIE tuples from QA pairs (e.g. the SQuAD dataset). It makes use of Spacy's dependency parser and many handcrafted algorithms to create 3-tuples (subject, relation, object tuples). 
 
