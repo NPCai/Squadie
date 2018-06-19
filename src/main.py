@@ -22,7 +22,7 @@ with open("../data/tuples.json", "w") as outFile:
 		for blob in topic['paragraphs']:
 			squadieParagraph = {"qas": [], "context": blob["context"]}
 			for span in blob['qas']: # Each qa has a question, id, and answers
-				squadieQa = {"question": None, "id": span['id'], "tuple": None}
+				squadieQa = {"question": None, "id": span['id'], "answer": None, "tuple": None}
 				if not span['is_impossible'] and len(span['question']) < 60:
 					q = span['question'].replace("\t", "")
 					if q.endswith("."):
@@ -45,6 +45,7 @@ with open("../data/tuples.json", "w") as outFile:
 						print(x)
 						squadieQa['question'] = q
 						squadieQa['tuple'] = str(x)
+						squadieQa['answer'] = shortAnswer
 				squadieParagraph['qas'].append(squadieQa)
 			squadieTopic["paragraphs"].append(squadieParagraph)
 		squadieJson["data"].append(squadieTopic)
