@@ -3,7 +3,7 @@ import json
 from collections import defaultdict
 import sys
 
-JSON_FILE = "../data/qaTuples-trian.json"
+JSON_FILE = "../data/qaTuples-train.json"
 SENT_FILE = "../data/training-tuples.json"
 VERSION = "2.0v1.0"
 num_tuples = 0
