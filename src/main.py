@@ -1,10 +1,16 @@
 import json
 import vis as v
 import spacy
+import sys
 
 VERSION = "2.0v1.0"
 TRAINFILE = "../squad2/train-v2.0.json"
-JSON_FILE = "../data/qaTuples.json"
+JSON_FILE = "../data/qaTuples-train.json"
+
+if len(sys.argv) > 1 and sys.argv[1] == "dev":
+	TRAINFILE = "../squad2/dev-v2.0.json"
+	JSON_FILE = "../data/qaTuples-dev.json"
+
 
 nlp = spacy.load('en')
 failures = 0
@@ -17,7 +23,7 @@ with open(TRAINFILE, encoding = "utf8") as f:
 
 failList = []
 
-with open(JSON_FILE, "w", encoding = "utf8"), as outFile:
+with open(JSON_FILE, "w", encoding = "utf8") as outFile:
 	squadieJson = {"version": VERSION, "data": []}
 	for topic in dataset: # Loads each topic into a dictionary
 		squadieTopic = {"title": topic['title'], "paragraphs": []}

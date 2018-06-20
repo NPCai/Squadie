@@ -2,9 +2,15 @@ import spacy
 import json
 from collections import defaultdict
 
-JSON_FILE = "../data/qaTuples.json"
-SENT_FILE = "../data/training_tuples.txt"
+JSON_FILE = "../data/qaTuples-trian.json"
+SENT_FILE = "../data/training_tuples.json"
 VERSION = "2.0v1.0"
+
+
+if len(sys.argv) > 1 and sys.argv[1] == "dev":
+	JSON_FILE = "../data/qaTuples-dev.json"
+	SENT_FILE = "../data/dev_tuples.json"
+
 
 nlp = spacy.load('en')
 
