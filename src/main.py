@@ -4,7 +4,7 @@ import spacy
 
 VERSION = "2.0v1.0"
 TRAINFILE = "../squad2/train-v2.0.json"
-OUTFILE = "../data/tuples.json"
+JSON_FILE = "../data/qaTuples.json"
 nlp = spacy.load('en')
 failures = 0
 successes = 0
@@ -16,15 +16,15 @@ with open(TRAINFILE, encoding = "utf8") as f:
 
 failList = []
 
-with open(OUTFILE, "w", encoding = "utf8") as outFile:
+with open(JSON_FILE, "w", encoding = "utf8")as outFile:
 	squadieJson = {"version": VERSION, "data": []}
 	for topic in dataset: # Loads each topic into a dictionary
 		squadieTopic = {"title": topic['title'], "paragraphs": []}
 		for blob in topic['paragraphs']:
 			squadieParagraph = {"qas": [], "context": blob["context"]}
 			for span in blob['qas']: # Each qa has a question, id, and answers
-				squadieQa = {"question": None, "id": span['id'], "answer": None, "tuple": None, "shortAnswerStart": None}
-				if not span['is_impossible'] and len(span['question']) < 60:
+				squadieQa = {"question": None, "id": span['id'], "answer": None, "tuple": None, "answer_start": None}
+				if not span['is_impossible'] and len(span['question']) < 60: # Cut off at 60 characters because parser doesn't do well on long sentences
 					q = span['question'].replace("\t", "")
 					if q.endswith("."):
 						q = q[:-1]
@@ -49,7 +49,7 @@ with open(OUTFILE, "w", encoding = "utf8") as outFile:
 						squadieQa['question'] = q
 						squadieQa['tuple'] = str(x)
 						squadieQa['answer'] = shortAnswer
-						squadieQe['shortAnswerStart'] = shortAnswerStart
+						squadieQa['answer_start'] = shortAnswerStart
 				squadieParagraph['qas'].append(squadieQa)
 			squadieTopic["paragraphs"].append(squadieParagraph)
 		squadieJson["data"].append(squadieTopic)
