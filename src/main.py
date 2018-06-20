@@ -5,6 +5,7 @@ import spacy
 VERSION = "2.0v1.0"
 TRAINFILE = "../squad2/train-v2.0.json"
 JSON_FILE = "../data/qaTuples.json"
+
 nlp = spacy.load('en')
 failures = 0
 successes = 0
@@ -16,7 +17,7 @@ with open(TRAINFILE, encoding = "utf8") as f:
 
 failList = []
 
-with open(JSON_FILE, "w", encoding = "utf8")as outFile:
+with open(JSON_FILE, "w", encoding = "utf8"), as outFile:
 	squadieJson = {"version": VERSION, "data": []}
 	for topic in dataset: # Loads each topic into a dictionary
 		squadieTopic = {"title": topic['title'], "paragraphs": []}
