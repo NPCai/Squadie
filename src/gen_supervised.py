@@ -1,15 +1,16 @@
 import spacy
 import json
 from collections import defaultdict
+import sys
 
 JSON_FILE = "../data/qaTuples-trian.json"
-SENT_FILE = "../data/training_tuples.json"
+SENT_FILE = "../data/training-tuples.json"
 VERSION = "2.0v1.0"
 
 
 if len(sys.argv) > 1 and sys.argv[1] == "dev":
 	JSON_FILE = "../data/qaTuples-dev.json"
-	SENT_FILE = "../data/dev_tuples.json"
+	SENT_FILE = "../data/dev-tuples.json"
 
 
 nlp = spacy.load('en')
@@ -28,6 +29,7 @@ with open(JSON_FILE, encoding = "utf8") as f:
 with open(SENT_FILE, "w", encoding = "utf8") as outFile:
 	squadieJson = {"version": VERSION, "data": []}
 	for topic in dataset:
+		print(topic['title'])
 		squadieTopic = {"title": topic['title'], "paragraphs": []}
 		for blob in topic['paragraphs']:
 			squadieParagraph = {"pairs": [], "context": blob["context"]}
