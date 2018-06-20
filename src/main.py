@@ -23,7 +23,7 @@ with open(OUTFILE, "w", encoding = "utf8") as outFile:
 		for blob in topic['paragraphs']:
 			squadieParagraph = {"qas": [], "context": blob["context"]}
 			for span in blob['qas']: # Each qa has a question, id, and answers
-				squadieQa = {"question": None, "id": span['id'], "answer": None, "tuple": None}
+				squadieQa = {"question": None, "id": span['id'], "answer": None, "tuple": None, "shortAnswerStart": None}
 				if not span['is_impossible'] and len(span['question']) < 60:
 					q = span['question'].replace("\t", "")
 					if q.endswith("."):
@@ -31,10 +31,12 @@ with open(OUTFILE, "w", encoding = "utf8") as outFile:
 					if not q.endswith("?"):
 						q += "?"
 					shortAnswer = None
+					shortAnswerStart = None
 					for answerBlob in span['answers']:
 						ans = answerBlob['text']
 						if shortAnswer == None or len(ans) < len(shortAnswer):
 							shortAnswer = ans
+							shortAnswerStart = answerBlob['answer_start']
 							successes = successes + 1
 					sentence = list(nlp(q).sents)[0]
 					x = v.parse(sentence, shortAnswer.replace("\t", ""))
@@ -47,6 +49,7 @@ with open(OUTFILE, "w", encoding = "utf8") as outFile:
 						squadieQa['question'] = q
 						squadieQa['tuple'] = str(x)
 						squadieQa['answer'] = shortAnswer
+						squadieQe['shortAnswerStart'] = shortAnswerStart
 				squadieParagraph['qas'].append(squadieQa)
 			squadieTopic["paragraphs"].append(squadieParagraph)
 		squadieJson["data"].append(squadieTopic)
