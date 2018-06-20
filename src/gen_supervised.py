@@ -6,7 +6,7 @@ import sys
 JSON_FILE = "../data/qaTuples-trian.json"
 SENT_FILE = "../data/training-tuples.json"
 VERSION = "2.0v1.0"
-
+num_tuples = 0
 
 if len(sys.argv) > 1 and sys.argv[1] == "dev":
 	JSON_FILE = "../data/qaTuples-dev.json"
@@ -40,6 +40,7 @@ with open(SENT_FILE, "w", encoding = "utf8") as outFile:
 					continue
 				sentence = get_sentence(para, span['answer_start'])
 				sentenceToTuples[sentence].append(span['tuple'])
+				num_tuples += 1
 			for sentence, tupleList in sentenceToTuples.items():
 				squadiePairs = {"sentence": sentence, "tuples": tupleList}
 				squadieParagraph['pairs'].append(squadiePairs)
@@ -47,3 +48,4 @@ with open(SENT_FILE, "w", encoding = "utf8") as outFile:
 		squadieJson['data'].append(squadieTopic)
 	json.dump(squadieJson, outFile, indent = 4, ensure_ascii = False)
 
+print(num_tuples)
