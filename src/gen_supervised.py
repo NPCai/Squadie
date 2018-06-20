@@ -3,14 +3,14 @@ import json
 from collections import defaultdict
 import sys
 
-JSON_FILE = "../data/qaTuples-trian.json"
-SENT_FILE = "../data/training-tuples.json"
+JSON_FILE = "../data/qaTuples-train.json"
+SENT_FILE = "../data/tuples-train.json"
 VERSION = "2.0v1.0"
 num_tuples = 0
 
 if len(sys.argv) > 1 and sys.argv[1] == "dev":
 	JSON_FILE = "../data/qaTuples-dev.json"
-	SENT_FILE = "../data/dev-tuples.json"
+	SENT_FILE = "../data/tuples-dev.json"
 
 
 nlp = spacy.load('en')
