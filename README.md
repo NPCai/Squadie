@@ -72,4 +72,4 @@ The main library is in vis.py in src. This file contains the algorithms that tak
 ## Dependencies 
 
 * spacy
-* unittest
+* python 3 (python 2 not tested but may work)
