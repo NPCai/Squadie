@@ -8,7 +8,7 @@ This file contains test cases for the library (and thus shows usage of its funct
 
 ### canvas.py
 
-Used to see dependency trees.
+Used to view dependency trees using the spacy library.
 
 ### main.py
 
