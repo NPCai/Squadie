@@ -35,8 +35,8 @@ with open("../data/opennmt-src-" + sys.argv[1] + ".tsv", "w") as src:
 		for pair in data:
 			for tup in pair['tuples']:
 				tupley = tup.strip().split("\t")
-				subj = tupley[0][1:]
-				pred = tupley[1]
-				obj = tupley[2][:-1]
-				src.write(pair['sentence'].replace('\n', "") + " " + subj + " " + obj + "\n")
+				subj = tupley[0][1:].strip()
+				pred = tupley[1].strip()
+				obj = tupley[2][:-1].strip()
+				src.write(pair['sentence'].replace('\n', "") + " SUBJ " + subj + " OBJ " + obj + "\n")
 				tgt.write(pred + "\n")
