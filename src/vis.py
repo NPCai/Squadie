@@ -23,7 +23,7 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 		return None, None
 
 def isWh(token):
-	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how']
+	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how','Who']#,'What','Where','When','Why','How']
 
 class Extract(object):
 
@@ -32,7 +32,7 @@ class Extract(object):
 		self.rel = rel
 		self.arg2 = arg2
 	def __str__(self):
-		return "<" + str(self.arg1) + "\t" + str(self.rel) + "\t" + str(self.arg2) + ">"
+		return "<" + str(self.arg1) + "," + str(self.rel) + "," + str(self.arg2) + ">"
 
 def badExtract(i):
 	if i == None or i.arg1 == None or str(i.arg1) == "" or i.rel == None or str(i.rel) == "" or i.arg2 == None or str(i.arg2) == "":
@@ -212,6 +212,10 @@ def noObjParse(sentence, answer):
 			count = count + 1
 	arg1 = ''.join(str(i) + " " for i in subjGroups[trueSubjPos]).strip()
 	rel = [i for i in sentence if not i in subjGroups[trueSubjPos]]
+	for wh in rel:
+		if isWh(wh) == True:
+			rel.remove(wh)
+
 	print("noObj parse")
 	return Extract(arg1=arg1, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in rel).strip(), arg2=answer)
 
@@ -238,6 +242,12 @@ def whichParse(sentence, answer):
 	print("Which parse")
 	return Extract(arg1=answer, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in relGroup).strip(), arg2=objStr)
 
+def whereParse(sentence, answer):
+	''' Parser for questions that have where in them '''
+	for where in sentence.lower_:
+		if where == "where":
+			print("Hooray its a where")
+	print("That ain't no where")
 
 def whoParseNsubj(sentence, answer):
 		''' Parser for "who be" questions '''
