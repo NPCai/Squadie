@@ -63,8 +63,8 @@ class TestParseMethods(unittest.TestCase):
 			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L", "Cam Newton", "Eight", "1995"
 			 "Arizona Cardinals", "New England Patriots", "Arizona Cardinals"]
 
-		self.oneSentence = nlp(u"Where did the monks flee to?")
-		self.oneSentenceTest = ["Monkland"]
+		self.oneSentence = nlp(u"Where is the Asian influence strongest in Victoria?")
+		self.oneSentenceTest = ["Bendigo"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)

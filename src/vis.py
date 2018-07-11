@@ -251,6 +251,7 @@ def whereParse(sentence, answer):
 	rel = []
 	prep = False
 	where = False
+	other = False
 	for token in sentence:
 		if token.lower_ == "where":
 			where = True
@@ -261,19 +262,36 @@ def whereParse(sentence, answer):
 		if sentence.root.pos_ == "VERB":
 			_, rootChildren = descendants(sentence, sentence.root, True) # Gets the relation plus the relBad (lots of children!)
 			for token in rootChildren:
-				if token.dep_ == "prep":
+				if "comp" in token.dep_:
 					rel.extend([sentence.root,token])
-					arg2.append(answer)
-					prep = True
-			if prep == False:
+					other = True
+			if other == False:
 				rel.append(sentence.root)
-				arg2.extend(["in",answer])
-			for child in rootChildren:
-				if child.dep_,lower_.contains("nsubj"):
-					print("We found a subj")
-	print("Where parse")
-	return Extract(arg1 = "argy pargy", rel = ''.join(str(i) + " " for i in rel).strip(), arg2 = ''.join(str(i).replace(",","").replace("?","") + " " for i in arg2).strip())
 
+			for tokenChild in rootChildren:
+				if token.dep_ == "prep":
+					rel.append(token)
+					prep = True
+				else:
+					break
+			arg2.append(answer)
+			for child in rootChildren:
+				if "nsubj" in child.dep_:
+					_, arg1_temp = descendants(sentence, child, True)
+					arg1_temp = ''.join(str(i) + " " for i in arg1_temp).strip()
+					arg1.append(arg1_temp)
+				if "obj" in child.dep_:
+					_, arg1_temp2 = descendants(sentence, child, True)
+					arg1_temp2 = ''.join(str(i) + " " for i in arg1_temp2).strip()
+					arg1.extend([" in ",arg1_temp2])			
+	rel = list(map(str,rel))
+	rel = " ".join(rel).split()
+	arg1 = ''.join(arg1).split()
+	rel = [token for token in rel if not token in arg1]
+	if prep == False:
+		rel.append("in")
+	print("Where parse")
+	return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i) + " " for i in rel).strip(), arg2 = ''.join(str(i).replace(",","").replace("?","") + " " for i in arg2).strip())
 
 def whoParseNsubj(sentence, answer):
 		''' Parser for "who be" questions '''
@@ -312,7 +330,6 @@ def whoParseNsubj(sentence, answer):
 				if child.dep_ == "nsubj":
 					arg2, relBad = descendants(sentence, child, True)
 					break
-
 
 		rel = [token for token in rel if not token in relBad] # Finds the difference between the 2 lists
 		print("Who parse nsubj")
