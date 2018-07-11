@@ -5,11 +5,14 @@ import spacy
 class TestParseMethods(unittest.TestCase):
 
 
-	'''TODO'''
-	
+	'''TODO
+	What party is favored in Bedigo and Geelong? Labor
+	What percentage of Victorians are Christian? 61%        (Just get rid of percentage in answer)
+	How many Victorians are non-religious? 20%  <Victorians,number non-religious,20%         (Number in the relation (basically replace how many with number))
+	What city is the capital of Victoria? Melbourne         (Just get rid of what)
 
 
-
+	'''
 	def setUp(self):
 		nlp = spacy.load('en')
 		self.doc = nlp(u'''In what year did Tesla go to Budapest?
@@ -43,25 +46,9 @@ class TestParseMethods(unittest.TestCase):
 			 In what year did Luther get his degree?''')
 		self.martinLuterTest = ["University of Erfurt", "beerhouse and whorehouse", "at four", "rote learning", "1505"]
 
-		self.superBowl = nlp(u'''Which NFL team represented the AFC at Super Bowl 50?
-			 Where did Super Bowl 50 take place?
-			 Which NFL team won Super Bowl 50?
-			 What color was used to emphasize the 50th anniversary of the Super Bowl?
-			 What was the theme of Super Bowl 50?
-			 What day was the game played on?
-			 What is the AFC short for?
-			 What does AFC stand for?
-			 If Roman numerals were used, what would Super Bowl 50 have been called?
-			 Which Carolina Panthers player was named Most Valuable Player?
-			 How many appearances have the Denver Broncos made in the Super Bowl?
-			 What year was the Carolina Panthers franchise founded?
-			 What team did the Panthers defeat?
-			 Who did the Broncos prevent from going to the Super Bowl?
-			 Who did the Panthers beat in the NFC Championship Game?
-			 ''')
-		self.superBowlTest = ["Denver Broncos", "Levi's Stadium", "Denver Broncos", "Gold", "Golden anniversary", 
-			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L", "Cam Newton", "Eight", "1995"
-			 "Arizona Cardinals", "New England Patriots", "Arizona Cardinals"]
+		self.longer = nlp(u'''What party is favored in Bedigo and Geelong?
+			What bongo is bongo in bongo?''')
+		self.longerTest = ["Labor","bongo"]
 
 		self.oneSentence = nlp(u"Where is the Asian influence strongest in Victoria?")
 		self.oneSentenceTest = ["Bendigo"]
@@ -85,14 +72,14 @@ class TestParseMethods(unittest.TestCase):
 		for sentence, answer in zip(sentences, self.martinLuterTest):
 			print(sentence, answer)
 			print(v.parse(sentence, answer), "\n")
-		self.assertTrue(True)
+		self.assertTrue(True)'''
 
-	def test_superBowl(self):
-		sentences = list(self.superBowl.sents)
-		for sentence, answer in zip(sentences, self.superBowlTest):
+	def test_longerTest(self):
+		sentences = list(self.longer.sents)
+		for sentence, answer in zip(sentences, self.longerTest):
 			print(sentence, answer)
 			print(v.parse(sentence, answer), "\n\n")
-		self.assertTrue(True)'''
+		self.assertTrue(True)
 
 	def test_oneSentence(self):
 		sentences = list(self.oneSentence.sents)
