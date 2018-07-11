@@ -55,6 +55,8 @@ def parse(sentence, answer):
 	if badExtract(i):
 		i = whoParseAttr(sentence, answer)
 	if badExtract(i):
+		i = whereParse(sentence, answer)
+	if badExtract(i):
 		i = genericParse(sentence, answer)
 	if badExtract(i):
 		i = invertedParse(sentence, answer)
@@ -244,10 +246,23 @@ def whichParse(sentence, answer):
 
 def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''
-	for where in sentence.lower_:
-		if where == "where":
-			print("Hooray its a where")
-	print("That ain't no where")
+	arg1 = []
+	arg2 = []
+	rel = ""
+	where = False
+	for token in sentence:
+		if token.lower_ == "where":
+			where = True
+			break
+	if where == False:
+		return None
+	else:
+		if sentence.root.pos_ == "VERB":
+			rel = sentence.root
+		arg2.extend(["in",answer])
+	print("Where parse")
+	return Extract(arg1 = "argy pargy", rel = rel, arg2 = ''.join(str(i).replace(",","").replace("?","") + " " for i in arg2).strip())
+
 
 def whoParseNsubj(sentence, answer):
 		''' Parser for "who be" questions '''

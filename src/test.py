@@ -63,8 +63,8 @@ class TestParseMethods(unittest.TestCase):
 			 "February 7th, 2016", "American Football Conference", "American Football Conference", "Super Bowl L", "Cam Newton", "Eight", "1995"
 			 "Arizona Cardinals", "New England Patriots", "Arizona Cardinals"]
 
-		self.oneSentence = nlp(u"Where was Dyrrachium located?")
-		self.oneSentenceTest = ["Adriatic"]
+		self.oneSentence = nlp(u"Where are Jersey and Guernsey?")
+		self.oneSentenceTest = ["Channel Islands"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
