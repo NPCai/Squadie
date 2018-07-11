@@ -248,7 +248,8 @@ def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''
 	arg1 = []
 	arg2 = []
-	rel = ""
+	rel = []
+	prep = False
 	where = False
 	for token in sentence:
 		if token.lower_ == "where":
@@ -258,10 +259,20 @@ def whereParse(sentence, answer):
 		return None
 	else:
 		if sentence.root.pos_ == "VERB":
-			rel = sentence.root
-		arg2.extend(["in",answer])
+			_, rootChildren = descendants(sentence, sentence.root, True) # Gets the relation plus the relBad (lots of children!)
+			for token in rootChildren:
+				if token.dep_ == "prep":
+					rel.extend([sentence.root,token])
+					arg2.append(answer)
+					prep = True
+			if prep == False:
+				rel.append(sentence.root)
+				arg2.extend(["in",answer])
+			for child in rootChildren:
+				if child.dep_,lower_.contains("nsubj"):
+					print("We found a subj")
 	print("Where parse")
-	return Extract(arg1 = "argy pargy", rel = rel, arg2 = ''.join(str(i).replace(",","").replace("?","") + " " for i in arg2).strip())
+	return Extract(arg1 = "argy pargy", rel = ''.join(str(i) + " " for i in rel).strip(), arg2 = ''.join(str(i).replace(",","").replace("?","") + " " for i in arg2).strip())
 
 
 def whoParseNsubj(sentence, answer):
