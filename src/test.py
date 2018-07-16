@@ -8,8 +8,12 @@ class TestParseMethods(unittest.TestCase):
 	'''TODO
 	What party is favored in Bedigo and Geelong? Labor
 	What percentage of Victorians are Christian? 61%        (Just get rid of percentage in answer)
-	How many Victorians are non-religious? 20%  <Victorians,number non-religious,20%         (Number in the relation (basically replace how many with number))
+	How many Victorians are non-religious? 20% 				(Number in the relation (basically replace how many with number))     <Victorians,number non-religious,20%>
 	What city is the capital of Victoria? Melbourne         (Just get rid of what)
+	When was Victoria first settled? 1803                   (Just get rid of when)
+	How much Victorian farmland is farmed in grains? 26,000 square kilometres        (Get rid of much (whatever dependency that may be))        <26,000 square kilometres,farmed,much Victorian farmland is in grains>
+	
+
 
 
 	'''
@@ -50,8 +54,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"Where is the Asian influence strongest in Victoria?")
-		self.oneSentenceTest = ["Bendigo"]
+		self.oneSentence = nlp(u"What percentage of Victorians are Christian?")
+		self.oneSentenceTest = ["61%"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
@@ -72,14 +76,14 @@ class TestParseMethods(unittest.TestCase):
 		for sentence, answer in zip(sentences, self.martinLuterTest):
 			print(sentence, answer)
 			print(v.parse(sentence, answer), "\n")
-		self.assertTrue(True)'''
+		self.assertTrue(True)
 
 	def test_longerTest(self):
 		sentences = list(self.longer.sents)
 		for sentence, answer in zip(sentences, self.longerTest):
 			print(sentence, answer)
 			print(v.parse(sentence, answer), "\n\n")
-		self.assertTrue(True)
+		self.assertTrue(True)'''
 
 	def test_oneSentence(self):
 		sentences = list(self.oneSentence.sents)

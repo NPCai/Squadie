@@ -80,7 +80,7 @@ def genericParse(sentence, answer):
 	if sentence[0].dep_ == "attr":
 		return None
 	for child in sentence.root.children:
-		if child.dep_ == "ccomp":
+		if child.dep_ == "ccomp" or child.dep_ == "acomp":
 			arg2 = descendants(sentence, child, True, sentence.root)[0]
 		# Get the subject
 		if child.dep_ == "nsubj":
@@ -252,6 +252,7 @@ def whereParse(sentence, answer):
 	prep = False
 	where = False
 	other = False
+	num = 0
 	for token in sentence:
 		if token.lower_ == "where":
 			where = True
@@ -283,13 +284,24 @@ def whereParse(sentence, answer):
 				if "obj" in child.dep_:
 					_, arg1_temp2 = descendants(sentence, child, True)
 					arg1_temp2 = ''.join(str(i) + " " for i in arg1_temp2).strip()
-					arg1.extend([" in ",arg1_temp2])			
+					arg1.extend([" in ",arg1_temp2])
+	for token in rel:
+		if token.pos_ == "VERB":
+			num += 1
+
 	rel = list(map(str,rel))
 	rel = " ".join(rel).split()
 	arg1 = ''.join(arg1).split()
+
 	rel = [token for token in rel if not token in arg1]
+	
 	if prep == False:
 		rel.append("in")
+	
+	if num == 2:
+		rel.insert(1,"to")
+		rel.insert(2,"be")
+	
 	print("Where parse")
 	return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i) + " " for i in rel).strip(), arg2 = ''.join(str(i).replace(",","").replace("?","") + " " for i in arg2).strip())
 
@@ -383,6 +395,7 @@ def threeOrFourParser(sentence, answer, force):
 	else:
 		_, arg2 = descendants(sentence, sentence.root, True)
 		arg2 = [token for token in arg2 if token != sentence.root]
+		print(arg2,"\n") 
 		for child in sentence:
 			if child.pos_ == "VERB":
 				rel = child
