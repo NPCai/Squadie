@@ -250,9 +250,28 @@ def whichParse(sentence, answer):
 
 def howParse(sentence, answer):
 	''' Parser for questions that begin with the adverbial modifier how'''
+	arg1 = ""
+	arg2 = []
+	rel = []
 	if sentence[0].lower_ != "how":
 		return None
-	return Extract(arg1 = "Kachoo", rel = "Kachoo", arg2 = "Kachoo")
+	if sentence[1].lower_ == "much" or sentence[1].lower_ == "many":
+		arg1 = answer
+		for child in sentence:
+			if "subj" in child.dep_:
+				_, arg2 = descendants(sentence, child, True)
+		_, rel = descendants(sentence, sentence.root, True)
+		rel = [token for token in rel if not token in arg2]
+		stopwords = ['much','many']
+		arg2 = [word for word in arg2 if word.lower_ not in stopwords]
+	
+	if sentence[1].lower_ == "much":
+		arg2.insert(0, "in")
+
+	if sentence[1].lower_ == "many":
+		rel.insert(0, "number")
+
+	return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
 
 def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''
