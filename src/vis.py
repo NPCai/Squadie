@@ -57,6 +57,8 @@ def parse(sentence, answer):
 	if badExtract(i):
 		i = whereParse(sentence, answer)
 	if badExtract(i):
+		i = howParse(sentence, answer)
+	if badExtract(i):
 		i = genericParse(sentence, answer)
 	if badExtract(i):
 		i = invertedParse(sentence, answer)
@@ -100,7 +102,7 @@ def genericParse(sentence, answer):
 				if child.dep_ == "prep" or child.dep_ == "advmod" or child.dep_ == "amod":
 					subject = False
 			if subject == True:
-				arg1, _ = descendants(sentence, attrToken, False)
+				_, arg1 = descendants(sentence, attrToken, False)
 	
 	if prepChild != None and pobjChild != None:
 		arg2 = descendants(sentence, pobjChild, False, sentence.root)[0] + " " + descendants(sentence, prepChild, False)[0]
@@ -120,12 +122,8 @@ def genericParse(sentence, answer):
 	if arg1 != None and arg2 != None:
 		print("Generic parse")
 		stopwords = ['who', 'what', 'where', 'when', 'why', 'how']
-		print(arg1,"\n")
-		arg1 = list(map(str,arg1))
-		print(arg1,"\n")
-		#arg1 = " ".join(arg1).split()
-		arg1 = [word for word in arg1 if word not in stopwords]
-		return Extract(arg1=arg1, arg2=answer, rel=arg2)
+		arg1 = [word for word in arg1 if word.lower_ not in stopwords]
+		return Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), arg2=answer, rel=arg2)
 	return None
 
 def finalWhatParse(sentence, answer):
@@ -249,6 +247,12 @@ def whichParse(sentence, answer):
 	relGroup = [token for token in relGroup if token != sentence[0]]
 	print("Which parse")
 	return Extract(arg1=answer, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in relGroup).strip(), arg2=objStr)
+
+def howParse(sentence, answer):
+	''' Parser for questions that begin with the adverbial modifier how'''
+	if sentence[0].lower_ != "how":
+		return None
+	return Extract(arg1 = "Kachoo", rel = "Kachoo", arg2 = "Kachoo")
 
 def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''
@@ -403,7 +407,6 @@ def threeOrFourParser(sentence, answer, force):
 		arg2 = [token for token in arg2 if token != sentence.root]
 		stopwords = ['percentage']
 		arg2 = [word for word in arg2 if word.lower_ not in stopwords]
-		print(arg2,"\n") 
 		for child in sentence:
 			if child.pos_ == "VERB":
 				rel = child

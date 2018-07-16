@@ -9,8 +9,8 @@ class TestParseMethods(unittest.TestCase):
 	What party is favored in Bedigo and Geelong? Labor
 	### What percentage of Victorians are Christian? 61%        (Just get rid of percentage in answer)
 	How many Victorians are non-religious? 20% 				(Number in the relation (basically replace how many with number))     <Victorians,number non-religious,20%>
-	What city is the capital of Victoria? Melbourne         (Just get rid of what)
-	When was Victoria first settled? 1803                   (Just get rid of when)
+	### What city is the capital of Victoria? Melbourne         (Just get rid of what)
+	### When was Victoria first settled? 1803                   (Just get rid of when)
 	How much Victorian farmland is farmed in grains? 26,000 square kilometres        (Get rid of much (whatever dependency that may be))        <26,000 square kilometres,farmed,much Victorian farmland is in grains>
 	
 
@@ -54,8 +54,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"What city is the capital of Victoria?")
-		self.oneSentenceTest = ["Melbourne"]
+		self.oneSentence = nlp(u"How much Victorian farmland is farmed in grains?")
+		self.oneSentenceTest = ["26,000 square kilometres"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
