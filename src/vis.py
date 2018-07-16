@@ -253,6 +253,7 @@ def howParse(sentence, answer):
 	arg1 = ""
 	arg2 = []
 	rel = []
+	
 	if sentence[0].lower_ != "how":
 		return None
 	if sentence[1].lower_ == "much" or sentence[1].lower_ == "many":
