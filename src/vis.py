@@ -23,7 +23,7 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 		return None, None
 
 def isWh(token):
-	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how','Who']#,'What','Where','When','Why','How']
+	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how']#,'What','Where','When','Why','How']
 
 class Extract(object):
 
@@ -119,6 +119,12 @@ def genericParse(sentence, answer):
 				arg2, _ = descendants(sentence, attrToken, False)
 	if arg1 != None and arg2 != None:
 		print("Generic parse")
+		stopwords = ['who', 'what', 'where', 'when', 'why', 'how']
+		print(arg1,"\n")
+		arg1 = list(map(str,arg1))
+		print(arg1,"\n")
+		#arg1 = " ".join(arg1).split()
+		arg1 = [word for word in arg1 if word not in stopwords]
 		return Extract(arg1=arg1, arg2=answer, rel=arg2)
 	return None
 
@@ -395,6 +401,8 @@ def threeOrFourParser(sentence, answer, force):
 	else:
 		_, arg2 = descendants(sentence, sentence.root, True)
 		arg2 = [token for token in arg2 if token != sentence.root]
+		stopwords = ['percentage']
+		arg2 = [word for word in arg2 if word.lower_ not in stopwords]
 		print(arg2,"\n") 
 		for child in sentence:
 			if child.pos_ == "VERB":
