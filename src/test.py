@@ -14,12 +14,13 @@ class TestParseMethods(unittest.TestCase):
 	### How many tonnes of tomatoes does Victoria produce? 270,000
 	### How many Victorians are non-religious? 20% 				(Number in the relation (basically replace how many with number))     <Victorians,number non-religious,20%>
 	How high are Victoria's alpine regions? 2,000 m
-	How many seats does Victoria have in the Senate? 12
-	How many Catholic schools were in Victoria? 489
-	How many full time teachers does Victoria have? 63,519
+	### How many seats does Victoria have in the Senate? 12
+	### How many Catholic schools were in Victoria? 489
+	### How many full time teachers does Victoria have? 63,519
 	
+	### How much of Australia's milk is produced in Victoria? two-thirds
 
-
+	###	<two-thirds,produced in victoria, of australia's milk
 	### <270,000, tonnes of tomatoes produce, victoria>
 	### <20%,number are non - religious,Victorians>
 	### <26,000 square kilometres,is farmed in grains,in Victorian farmland>
@@ -64,8 +65,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"How many full time teachers does Victoria have?")
-		self.oneSentenceTest = ["63,519"]
+		self.oneSentence = nlp(u"How much of Australia's milk is produced in Victoria?")
+		self.oneSentenceTest = ["two-thirds"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)

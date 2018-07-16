@@ -86,7 +86,7 @@ def genericParse(sentence, answer):
 			arg2 = descendants(sentence, child, True, sentence.root)[0]
 		# Get the subject
 		if child.dep_ == "nsubj":
-			arg1 = descendants(sentence, child, True)[0]
+			_,arg1 = descendants(sentence, child, True)
 		# Get the object
 		elif child.dep_ == "prep":
 			prepChild = child
@@ -270,7 +270,7 @@ def howParse(sentence, answer):
 		rel = [token for token in rel if token.lower_ not in stopwords]
 		rel = [child for child in rel if "aux" not in child.dep_]
 	
-	if sentence[1].lower_ == "much":
+	if sentence[1].lower_ == "much" and arg2[0].dep_ != "prep":
 		arg2.insert(0, "in")
 
 	if sentence[1].lower_ == "many" and Object == False:
