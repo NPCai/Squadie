@@ -253,7 +253,7 @@ def howParse(sentence, answer):
 	arg1 = ""
 	arg2 = []
 	rel = []
-	
+	Object = False
 	if sentence[0].lower_ != "how":
 		return None
 	if sentence[1].lower_ == "much" or sentence[1].lower_ == "many":
@@ -261,18 +261,22 @@ def howParse(sentence, answer):
 		for child in sentence:
 			if "subj" in child.dep_:
 				_, arg2 = descendants(sentence, child, True)
+			if "obj" in child.dep_:
+				Object = True
 		_, rel = descendants(sentence, sentence.root, True)
 		rel = [token for token in rel if not token in arg2]
 		stopwords = ['much','many']
 		arg2 = [word for word in arg2 if word.lower_ not in stopwords]
+		rel = [token for token in rel if token.lower_ not in stopwords]
+		rel = [child for child in rel if "aux" not in child.dep_]
 	
 	if sentence[1].lower_ == "much":
 		arg2.insert(0, "in")
 
-	if sentence[1].lower_ == "many":
+	if sentence[1].lower_ == "many" and Object == False:
 		rel.insert(0, "number")
 
-	return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
+	return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
 
 def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''

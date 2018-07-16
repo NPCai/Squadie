@@ -8,13 +8,23 @@ class TestParseMethods(unittest.TestCase):
 	'''TODO
 	What party is favored in Bedigo and Geelong? Labor
 	### What percentage of Victorians are Christian? 61%        (Just get rid of percentage in answer)
-	How many Victorians are non-religious? 20% 				(Number in the relation (basically replace how many with number))     <Victorians,number non-religious,20%>
 	### What city is the capital of Victoria? Melbourne         (Just get rid of what)
 	### When was Victoria first settled? 1803                   (Just get rid of when)
-	How much Victorian farmland is farmed in grains? 26,000 square kilometres        (Get rid of much (whatever dependency that may be))        <26,000 square kilometres,farmed,much Victorian farmland is in grains>
-	<20%, number are non-religious, Victorians>
-	<26,000 square kilometres, is farmed in grains, victorian farmland>
+	### How much Victorian farmland is farmed in grains? 26,000 square kilometres        (Get rid of much (whatever dependency that may be))        <26,000 square kilometres,farmed,much Victorian farmland is in grains>
+	### How many tonnes of tomatoes does Victoria produce? 270,000
+	### How many Victorians are non-religious? 20% 				(Number in the relation (basically replace how many with number))     <Victorians,number non-religious,20%>
+	How high are Victoria's alpine regions? 2,000 m
+	How many seats does Victoria have in the Senate? 12
+	How many Catholic schools were in Victoria? 489
+	How many full time teachers does Victoria have? 63,519
+	
 
+
+	### <270,000, tonnes of tomatoes produce, victoria>
+	### <20%,number are non - religious,Victorians>
+	### <26,000 square kilometres,is farmed in grains,in Victorian farmland>
+
+	
 
 	'''
 	def setUp(self):
@@ -54,8 +64,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"How many Victorians are non-religious?")
-		self.oneSentenceTest = ["20%"]
+		self.oneSentence = nlp(u"How many full time teachers does Victoria have?")
+		self.oneSentenceTest = ["63,519"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
