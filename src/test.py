@@ -37,13 +37,10 @@ class TestParseMethods(unittest.TestCase):
 	How often does the European Council meet? each six months
 	How are the explanations supported?
 
-
-
-	<The revocation, restrict huguenot travel, by prohibited emigration>
-	<The Huguenots, defend themselves, with their own militia>
 	
-
-
+	<Dioxygen, most simply described, as covalent double bond>
+	<The O2 molecule, refferred to in its ground state, as O>
+	
 	###	<two-thirds,produced in victoria, of australia's milk
 	### <270,000, tonnes of tomatoes produce, victoria>
 	### <20%,number are non - religious,Victorians>
@@ -89,8 +86,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"How did the revocation restrict Huguenot travel?")
-		self.oneSentenceTest = ["prohibited emigration"]
+		self.oneSentence = nlp(u"How is the O2 molecule referred to in its ground state?")
+		self.oneSentenceTest = ["O"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)

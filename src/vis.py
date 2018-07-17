@@ -255,6 +255,7 @@ def howParse(sentence, answer):
 	rel = []
 	argument = False
 	Object = False
+	poss = False
 	if sentence[0].lower_ != "how":
 		return None
 	if sentence[1].lower_ == "much" or sentence[1].lower_ == "many":
@@ -278,14 +279,28 @@ def howParse(sentence, answer):
 		if sentence[1].lower_ == "many" and Object == False:
 			rel.insert(0, "number")
 	
-	elif sentence[1].lower_ == "did":
+	elif sentence[1].lower_ == "did" or sentence[1].lower_ == "is":
+		
 		for child in sentence:
-			if "subj" in child.dep_:
-				_, arg1 = descendants(sentence, child, True)
 			if "obj" in child.dep_:
 				_, rel = descendants(sentence, child, True, sentence.root)
-		arg2 = answer
+			if "subj" in child.dep_:
+				_, arg1 = descendants(sentence, child, True)
+
+		arg2.append(answer)
+		nlp = spacy.load('en')
+		answerDep = nlp(answer)
+		if sentence[1].lower_ != "is":
+			for token in answerDep:
+				if token.dep_ == "poss":
+					arg2.insert(0,"with")
+					poss = True
+			if poss == False:
+				arg2.insert(0,"by")
+		else:
+			arg2.insert(0,"as")
 		argument = True
+	
 	else:
 		return None
 
@@ -294,7 +309,7 @@ def howParse(sentence, answer):
 	if argument == True:
 		return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
 	if argument == False:
-		return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
+		return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
 
 def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''
