@@ -36,10 +36,22 @@ class TestParseMethods(unittest.TestCase):
 	How was scarcity managed in many countries? rationing
 	How often does the European Council meet? each six months
 	How are the explanations supported?
+	How large can ctenophora grow? 1.5m
+	How do ctenophores control buoyancy? It is uncertain
+	How are the combs spaced? evenly
+	How are eggs and sperm released? pores in the epidermis
+	How old were the fossils found in China? 515 million years
+	How far is Fresno from Los Angeles? 220 miles
+	How far apart are some of the neighborhood's features? few hundred feet
+	How would one describe the summers in Fresno? hot and dry (Dont mess with this)
 
+
+
+	<scarcity was ma
 	
-	<Dioxygen, most simply described, as covalent double bond>
-	<The O2 molecule, refferred to in its ground state, as O>
+	
+	### <Dioxygen, most simply described, as covalent double bond>
+	### <The O2 molecule, refferred to in its ground state, as O>
 	
 	###	<two-thirds,produced in victoria, of australia's milk
 	### <270,000, tonnes of tomatoes produce, victoria>
@@ -86,8 +98,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"How was scarcity managed in many countries?")
-		self.oneSentenceTest = ["rationing"]
+		self.oneSentence = nlp(u"How large can ctenophora grow?")
+		self.oneSentenceTest = ["1.5m"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)

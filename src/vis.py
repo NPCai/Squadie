@@ -256,6 +256,8 @@ def howParse(sentence, answer):
 	argument = False
 	Object = False
 	poss = False
+	objTrue = False
+
 	if sentence[0].lower_ != "how":
 		return None
 	if sentence[1].lower_ == "much" or sentence[1].lower_ == "many":
@@ -301,9 +303,17 @@ def howParse(sentence, answer):
 			arg2.insert(0,"as")
 		argument = True
 	
-	elif "aux" in sentence[1].lower_ or (sentence[1].lower_ == "advmod" and "aux" in sentence[2].lower_):
+	for child in sentence:
+		if "obj" in child.dep_:
+			objTrue = True
+	if ojbTrue == False:
+		for children in sentence:
+			if "subj" in children.dep_:
+				arg1 = childre.lower_
+			
 
-
+	elif "aux" in sentence[1].lower_ or "aux" in sentence[2].lower_:
+		
 	else:
 		return None
 
