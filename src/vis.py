@@ -303,17 +303,17 @@ def howParse(sentence, answer):
 			arg2.insert(0,"as")
 		argument = True
 	
-	for child in sentence:
-		if "obj" in child.dep_:
-			objTrue = True
-	if ojbTrue == False:
-		for children in sentence:
-			if "subj" in children.dep_:
-				arg1 = childre.lower_
-			
+	if "comp" in sentence[1].dep_ or sentence[1].dep_ == "advmod":
+		for child in sentence:
+			if "obj" in child.dep_:
+				objTrue = True
+		if objTrue == True:
+			for children in sentence:
+				if "subj" in children.dep_:
+					_, arg1 = descendants(sentence, children, True)
+			rel = sentence.root
 
-	elif "aux" in sentence[1].lower_ or "aux" in sentence[2].lower_:
-		
+
 	else:
 		return None
 

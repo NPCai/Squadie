@@ -98,8 +98,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"How large can ctenophora grow?")
-		self.oneSentenceTest = ["1.5m"]
+		self.oneSentence = nlp(u"How far is Fresno from Los Angeles?")
+		self.oneSentenceTest = ["220 miles"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
