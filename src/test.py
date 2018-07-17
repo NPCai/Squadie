@@ -13,12 +13,36 @@ class TestParseMethods(unittest.TestCase):
 	### How much Victorian farmland is farmed in grains? 26,000 square kilometres        (Get rid of much (whatever dependency that may be))        <26,000 square kilometres,farmed,much Victorian farmland is in grains>
 	### How many tonnes of tomatoes does Victoria produce? 270,000
 	### How many Victorians are non-religious? 20% 				(Number in the relation (basically replace how many with number))     <Victorians,number non-religious,20%>
-	How high are Victoria's alpine regions? 2,000 m
 	### How many seats does Victoria have in the Senate? 12
 	### How many Catholic schools were in Victoria? 489
 	### How many full time teachers does Victoria have? 63,519
-	
 	### How much of Australia's milk is produced in Victoria? two-thirds
+
+	
+	### How much imported oil came from the Middle East? 71%
+	### How much capital did Danish law require to start a company? 200,000 Danish krone
+	### How much dust is blown out of the Sahara each year? 182 million tons
+
+
+
+	How high are Victoria's alpine regions? 2,000 m
+	How are Victorian cabinet members chosen? elected
+	How did the Huguenots defend themselves? their own militia
+	How did the revocation restrict Huguenot travel? prohibited emigration
+	For how long did Huguenots continue to use French names? 10 years
+	How is dioxygen most simply described? covalent double bond
+	How is the O2 molecule referred to in its ground state? O
+	How long ago did oxygen reach 10% of its present level? 1.7 billion years ago
+	How was scarcity managed in many countries? rationing
+	How often does the European Council meet? each six months
+	How are the explanations supported?
+
+
+
+	<The revocation, restrict huguenot travel, by prohibited emigration>
+	<The Huguenots, defend themselves, with their own militia>
+	
+
 
 	###	<two-thirds,produced in victoria, of australia's milk
 	### <270,000, tonnes of tomatoes produce, victoria>
@@ -65,8 +89,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"How much of Australia's milk is produced in Victoria?")
-		self.oneSentenceTest = ["two-thirds"]
+		self.oneSentence = nlp(u"How did the revocation restrict Huguenot travel?")
+		self.oneSentenceTest = ["prohibited emigration"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)

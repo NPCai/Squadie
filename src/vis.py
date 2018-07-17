@@ -268,14 +268,23 @@ def howParse(sentence, answer):
 		stopwords = ['much','many']
 		arg2 = [word for word in arg2 if word.lower_ not in stopwords]
 		rel = [token for token in rel if token.lower_ not in stopwords]
-		rel = [child for child in rel if "aux" not in child.dep_]
+		rel = [child for child in rel if "aux" not in child.dep_ or child.lower_ == "to"]
 	
-	if sentence[1].lower_ == "much" and arg2[0].dep_ != "prep":
-		arg2.insert(0, "in")
+		if sentence[1].lower_ == "much" and arg2[0].dep_ != "prep":
+			arg2.insert(0, "in")
 
-	if sentence[1].lower_ == "many" and Object == False:
-		rel.insert(0, "number")
+		if sentence[1].lower_ == "many" and Object == False:
+			rel.insert(0, "number")
+	
+	elif sentence[1].lower_ == "did":
+		for child in sentence:
+			if "subj" in child.dep_:
+				_, arg1 = descendants(sentence, child, True)
+	
+	else:
+		return None
 
+	print("How parse")
 	return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
 
 def whereParse(sentence, answer):
