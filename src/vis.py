@@ -250,14 +250,16 @@ def whichParse(sentence, answer):
 
 def howParse(sentence, answer):
 	''' Parser for questions that begin with the adverbial modifier how'''
-	arg1 = ""
+	arg1 = []
 	arg2 = []
 	rel = []
+	argument = False
 	Object = False
 	if sentence[0].lower_ != "how":
 		return None
 	if sentence[1].lower_ == "much" or sentence[1].lower_ == "many":
 		arg1 = answer
+		argument = False
 		for child in sentence:
 			if "subj" in child.dep_:
 				_, arg2 = descendants(sentence, child, True)
@@ -280,12 +282,19 @@ def howParse(sentence, answer):
 		for child in sentence:
 			if "subj" in child.dep_:
 				_, arg1 = descendants(sentence, child, True)
-	
+			if "obj" in child.dep_:
+				_, rel = descendants(sentence, child, True, sentence.root)
+		arg2 = answer
+		argument = True
 	else:
 		return None
 
 	print("How parse")
-	return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
+	print(" Arg1 = ", arg1,"\n\n\n", "Rel = ", rel, "\n\n\n", "Arg2 = ", arg2, "\n\n\n")
+	if argument == True:
+		return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
+	if argument == False:
+		return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
 
 def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''
