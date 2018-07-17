@@ -301,6 +301,9 @@ def howParse(sentence, answer):
 			arg2.insert(0,"as")
 		argument = True
 	
+	elif "aux" in sentence[1].lower_ or (sentence[1].lower_ == "advmod" and "aux" in sentence[2].lower_):
+
+
 	else:
 		return None
 
