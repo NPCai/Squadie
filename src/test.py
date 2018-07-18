@@ -47,7 +47,7 @@ class TestParseMethods(unittest.TestCase):
 	How old are the gravestones that reference the plague? 1338-39
 
 
-	<the neighbourhood's features
+	<the neighbourhood's features 
 
 
 
@@ -100,8 +100,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"How far is Fresno from Los Angeles?")
-		self.oneSentenceTest = ["220 miles"]
+		self.oneSentence = nlp(u"how many copies of 4 sold in the first week?")
+		self.oneSentenceTest = ["310,000"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)

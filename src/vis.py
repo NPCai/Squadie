@@ -275,12 +275,13 @@ def howParse(sentence, answer):
 		arg2 = [word for word in arg2 if word.lower_ not in stopwords]
 		rel = [token for token in rel if token.lower_ not in stopwords]
 		rel = [child for child in rel if "aux" not in child.dep_ or child.lower_ == "to"]
-	
-		if sentence[1].lower_ == "much" and arg2[0].dep_ != "prep":
-			arg2.insert(0, "in")
 
-		if sentence[1].lower_ == "many" and Object == False:
-			rel.insert(0, "number")
+		if len(arg2) != 0:
+			if sentence[1].lower_ == "much" and arg2[0].dep_ != "prep":
+				arg2.insert(0, "in")
+
+			if sentence[1].lower_ == "many" and Object == False:
+				rel.insert(0, "number")
 	
 	elif sentence[1].lower_ == "did" or sentence[1].lower_ == "is":
 		
@@ -308,26 +309,39 @@ def howParse(sentence, answer):
 		for child in sentence:
 			if "obj" in child.dep_:
 				objTrue = True
-		if objTrue == True:
+		
+		if objTrue == True and sentence[1].dep_ == "advmod":
 			for children in sentence:
-				if "subj" in children.dep_:
+				if "obj" in children.dep_:
 					_, arg1 = descendants(sentence, children, True)
-			rel = sentence.root
-
+			rel = sentence.root.lower_
+			arg2.append(answer)
+			for advmod in sentence:
+				if advmod.dep_ == "advmod":
+					arg2.append(advmod.lower_)	
+		
+		if objTrue == True and "comp" in sentence[1].dep_:
+			for token in sentence:
+				if "subj" in token.dep_:
+					_, arg1 = descendants(sentence, token, True)
+					break
+			rel = sentence.root.lower_
+			arg2.append(answer)
+			for comp in sentence:
+				if "comp" in comp.dep_:
+					arg2.append(comp.lower_)
 
 	else:
 		return None
 
 	print("How parse")
-	print(" Arg1 = ", arg1,"\n\n\n", "Rel = ", rel, "\n\n\n", "Arg2 = ", arg2, "\n\n\n")
-	if arg1 != None and arg2 != None and rel != None:
-		if argument == True and relTrue == False:
-			return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
-		if argument == False and relTrue == False:
-			return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
-		if relTrue == True:
-			return Extract(arg1 = arg1, rel = rel, arg2 = ''.join(str(i) + " " for i in arg2).strip())
-	return None
+	if "list" in str(type(arg1)):
+		arg1 = ''.join(str(i) + " " for i in arg1).strip()
+	if "list" in str(type(rel)):
+		rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip()
+	if "list" in str(type(arg2)):
+		arg2 = ''.join(str(i) + " " for i in arg2).strip()
+	return Extract(arg1 = arg1, rel = rel, arg2 = arg2)
 
 def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''
