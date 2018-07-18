@@ -3,7 +3,7 @@ import vis as v
 import spacy
 import sys
 
-VERSION = "2.0v1.0"
+VERSION = "2.0v1.1"
 TRAINFILE = "../squad2/train-v2.0.json"
 JSON_FILE = "../data/qaTuples-train.json"
 

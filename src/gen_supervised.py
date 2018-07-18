@@ -5,7 +5,7 @@ import sys
 
 JSON_FILE = "../data/qaTuples-train.json"
 SENT_FILE = "../data/tuples-train.json"
-VERSION = "2.0v1.0"
+VERSION = "2.0v1.1"
 num_tuples = 0
 
 if len(sys.argv) > 1 and sys.argv[1] == "dev":
