@@ -254,6 +254,7 @@ def howParse(sentence, answer):
 	arg2 = []
 	rel = []
 	argument = False
+	relTrue = False
 	Object = False
 	poss = False
 	objTrue = False
@@ -319,10 +320,14 @@ def howParse(sentence, answer):
 
 	print("How parse")
 	print(" Arg1 = ", arg1,"\n\n\n", "Rel = ", rel, "\n\n\n", "Arg2 = ", arg2, "\n\n\n")
-	if argument == True:
-		return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
-	if argument == False:
-		return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
+	if arg1 != None and arg2 != None and rel != None:
+		if argument == True and relTrue == False:
+			return Extract(arg1 = ''.join(str(i) + " " for i in arg1).strip(), rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
+		if argument == False and relTrue == False:
+			return Extract(arg1 = arg1, rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip(), arg2 = ''.join(str(i) + " " for i in arg2).strip())
+		if relTrue == True:
+			return Extract(arg1 = arg1, rel = rel, arg2 = ''.join(str(i) + " " for i in arg2).strip())
+	return None
 
 def whereParse(sentence, answer):
 	''' Parser for questions that have where in them '''

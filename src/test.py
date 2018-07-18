@@ -44,11 +44,13 @@ class TestParseMethods(unittest.TestCase):
 	How far is Fresno from Los Angeles? 220 miles
 	How far apart are some of the neighborhood's features? few hundred feet
 	How would one describe the summers in Fresno? hot and dry (Dont mess with this)
+	How old are the gravestones that reference the plague? 1338-39
+
+
+	<the neighbourhood's features
 
 
 
-	<scarcity was ma
-	
 	
 	### <Dioxygen, most simply described, as covalent double bond>
 	### <The O2 molecule, refferred to in its ground state, as O>
