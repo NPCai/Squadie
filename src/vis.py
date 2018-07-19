@@ -70,6 +70,7 @@ def parse(sentence, answer):
 		i =  threeOrFourParser(sentence, answer, True)
 	if badExtract(i):
 		return None
+	print(sentence)
 	return i
 
 def genericParse(sentence, answer):
@@ -130,10 +131,10 @@ def finalWhatParse(sentence, answer):
 	preps = ["as", "for", "in", "of", "by"]
 	bes = ["was", "is", "be"]
 	if not sentence[len(sentence) - 2].lower_ in preps: # Has to be - 2 because the question mark counts as part of the array so you have to account for that
-		print("Returnin none 1")
+		#print("Returnin none 1")
 		return None
 	if not sentence[1].lower_ in bes:
-		print("Returnin none 2")
+		#print("Returnin none 2")
 		return None
 	verbPos = None
 	count = 0
@@ -142,7 +143,7 @@ def finalWhatParse(sentence, answer):
 			verbPos = count
 		count = count + 1
 	if verbPos == None or verbPos == len(sentence) - 2:
-		print("Returnin none 3")
+		#print("Returnin none 3")
 		return None
 	arg1 = sentence[2:verbPos]
 	rel = sentence[verbPos:len(sentence) - 1]

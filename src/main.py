@@ -35,6 +35,8 @@ with open(JSON_FILE, "w", encoding = "utf8") as outFile:
 					q = span['question'].replace("\t", "")
 					if q.endswith("."):
 						q = q[:-1]
+					if q.endswith(" "):
+						q.rstrip()
 					if not q.endswith("?"):
 						q += "?"
 					shortAnswer = None
@@ -52,7 +54,7 @@ with open(JSON_FILE, "w", encoding = "utf8") as outFile:
 						failList.append(str(sentence) + " " + str(shortAnswer))
 					else:
 						successes = successes + 1
-						print(x)
+						print(x,"\n")
 						squadieQa['question'] = q
 						squadieQa['tuple'] = str(x)
 						squadieQa['answer'] = shortAnswer
