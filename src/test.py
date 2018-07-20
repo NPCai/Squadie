@@ -22,6 +22,15 @@ class TestParseMethods(unittest.TestCase):
 	What makes energy changes in a closed system? nonconservative forces
 	What is needed to pack electrons densely together? energy
 
+
+	<root compound, compound compound dobj, by answer>
+	<answer, root compound dobj,>
+	
+	<idea strings, transmit tension forces, by action-reaction pairs> No inital
+	<nonconservative forces, makes energy changes, in a closed system> Use makes
+	<energy, is needed to pack, electrons densely together> Use needed
+
+
 	
 	### How much imported oil came from the Middle East? 71%
 	### How much capital did Danish law require to start a company? 200,000 Danish krone
