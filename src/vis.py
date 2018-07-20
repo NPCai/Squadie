@@ -234,6 +234,7 @@ def noSubjParse(sentence, answer):
 	arg1 = []
 	rel = []
 	arg2 = []
+	
 
 def whichParse(sentence, answer):
 	''' Parser for questions that start with which '''

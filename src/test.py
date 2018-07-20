@@ -18,6 +18,10 @@ class TestParseMethods(unittest.TestCase):
 	### How many full time teachers does Victoria have? 63,519
 	### How much of Australia's milk is produced in Victoria? two-thirds
 
+	In what ways do idea strings transmit tension forces? action-reaction pairs
+	What makes energy changes in a closed system? nonconservative forces
+	What is needed to pack electrons densely together? energy
+
 	
 	### How much imported oil came from the Middle East? 71%
 	### How much capital did Danish law require to start a company? 200,000 Danish krone
