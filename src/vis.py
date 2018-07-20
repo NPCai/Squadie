@@ -248,31 +248,36 @@ def noSubjParse(sentence, answer):
 	objCounter = 0
 	nonObj = False
 	prepSave = []
+	noMoreObj = False
 	for subjSearch in sentence:
 		if "subj" in subjSearch.dep_ and not isWh(subjSearch):
 			return None
-	if "subj" in sentence[0].dep_:
+	'''ideal strings used to model'''
+	if "subj" in sentence[0].dep_: #The only subject is the who/what/when at the beginning of the sentence
 		arg1 = answer
 		for child in sentence:
-			if "obj" in child.dep_ and objCounter == 0 or "advcl" in child.dep_ and objCounter == 0:
+			if "obj" in child.dep_ and objCounter == 0 or "advcl" in child.dep_ and objCounter == 0 or "xcomp" in child.dep_ and objCounter == 0:
 				_, rel = descendants(sentence, child, True, sentence.root)
 				objCounter += 1
 				nonObj = True
 			if "prep" in child.dep_:
-				prepSave.append(child.lower_)
 				_, arg2 = descendants(sentence, child, True)
 				for obj in arg2:
-					if "obj" in obj.dep_[0] and objCounter > 0 or "obj" in obj.dep_[0] and nonObj == True:
+					print([i.dep_ for i in list(obj.rights)])
+					if ('obj' in str([i.dep_ for i in list(obj.rights)]) and objCounter > 0) or ('obj' in str([i.dep_ for i in list(obj.rights)]) and nonObj == True):
 						_, arg2 = descendants(sentence, child, True)
-						arg2 = prepSave + arg2
-						break
-			if "obj" in child.dep_:
+						noMoreObj = True
+			if "obj" in child.dep_ and noMoreObj == False:
 				_, arg2 = descendants(sentence,child,True)
-		rel = [token for token in rel if token not in arg2]
-	else:
+		rel = [token for token in rel if not token in arg2]
+	
+	else: # There is absolutely no subject in the sentence
 		arg1 = sentence.root
+
+
 	arg1, rel, arg2 = extractHelper(arg1, rel, arg2)
 	print("No Subject Parse")
+	print(" arg1 = ",arg1,"\n","rel = ",rel,"\n","arg2 = ",arg2,"\n")
 	return Extract(arg1 = arg1, rel = rel, arg2 = arg2)
 def whichParse(sentence, answer):
 	''' Parser for questions that start with which '''
@@ -530,19 +535,39 @@ def whoParseAttr(sentence, answer):
 			return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).strip(), rel = ''.join(str(i) + " " for i in rel).strip())
 
 def threeOrFourParser(sentence, answer, force):
-	arg1 = ""
+	arg1 = []
 	arg2 = []
-	rel = ""
+	rel = []
+	arg1Force = []
 	if len(sentence.text.split()) >= 5 and force == False:
 		return None
 	else:
-		_, arg2 = descendants(sentence, sentence.root, True)
-		arg2 = [token for token in arg2 if token != sentence.root]
-		stopwords = ['percentage']
-		arg2 = [word for word in arg2 if word.lower_ not in stopwords]
-		for child in sentence:
-			if child.pos_ == "VERB":
-				rel = child
-		arg1 = answer
+		if force == False:
+			_, arg2 = descendants(sentence, sentence.root, True)
+			arg2 = [token for token in arg2 if token != sentence.root]
+			stopwords = ['percentage']
+			arg2 = [word for word in arg2 if word.lower_ not in stopwords]
+			arg1Force = arg2
+			for child in sentence:
+				print("Dependency is ",child.dep_,"\n")
+
+				if child.pos_ == "VERB" and force == False:
+					rel = child
+					arg1 = answer
+
+		if force == True:
+			_, arg1 = descendants(sentence, sentence.root, True)
+			arg1 = [tokeny for tokeny in arg1 if tokeny != sentence.root]
+			stopwordsy = ['percentage']
+			arg1 = [wordy for wordy in arg1 if wordy.lower_ not in stopwordsy]
+			for coin in sentence:
+				if coin.dep_ == "ROOT":
+					rel = coin.lower_
+					arg2 = answer
+				if force == True and coin.dep_ == "aux" and coin.lower_ == "did":
+					print("reno")
+					rel.insert(0,coin.lower_)
+
+	arg1,rel,arg2 = extractHelper(arg1,rel,arg2)
 	print("Three or four parser")
 	return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).replace("?","").strip(), rel = rel)

@@ -21,18 +21,29 @@ class TestParseMethods(unittest.TestCase):
 	In what ways do idea strings transmit tension forces? action-reaction pairs
 	What makes energy changes in a closed system? nonconservative forces
 	What is needed to pack electrons densely together? energy
+	Where did British resettle many Acadians? North American Provinces
+	What battle outside Quebec City did British lose in 1760? Sainte-Foy
+	What did John Paul II's visits in 1979 and 1983 encourage?
+
 
 
 	<root compound, compound compound dobj, by answer>
 	<answer, root compound dobj, prep det amod pobj>
 	<answer, auxpass root aux advcl, dobj advmod advmod>
-	
+
+
+
 	<idea strings, transmit tension forces, by action-reaction pairs> No inital
 	<nonconservative forces, makes energy changes, in a closed system> Use makes
 	<energy, is needed to pack, electrons densely together> Use needed
+	<British, did resettle many Acadians, in North American Provinces
 
 
-	
+
+
+
+
+
 	### How much imported oil came from the Middle East? 71%
 	### How much capital did Danish law require to start a company? 200,000 Danish krone
 	### How much dust is blown out of the Sahara each year? 182 million tons
@@ -114,8 +125,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"What is needed to pack electrons densely together?")
-		self.oneSentenceTest = ["energy"]
+		self.oneSentence = nlp(u"What did John Paul II's visits in 1979 and 1983 encourage?")
+		self.oneSentenceTest = ["anti-communist fervor"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
