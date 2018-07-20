@@ -2,12 +2,18 @@ import json
 import vis as v
 import spacy
 import sys
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-dev", "--devset", action="store_true",
+                    help="Use of the much smaller dev training set")
+args = parser.parse_args()
 
 VERSION = "2.0v1.1"
 TRAINFILE = "../squad2/train-v2.0.json"
 JSON_FILE = "../data/qaTuples-train.json"
 
-if len(sys.argv) > 1 and sys.argv[1] == "dev":
+if args.devset:
 	TRAINFILE = "../squad2/dev-v2.0.json"
 	JSON_FILE = "../data/qaTuples-dev.json"
 

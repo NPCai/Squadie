@@ -119,11 +119,14 @@ def genericParse(sentence, answer):
 				if child.dep_ == "prep" or child.dep_ == "advmod" or child.dep_ == "amod":
 					obj = True
 			if obj == True:
-				arg2, _ = descendants(sentence, attrToken, False)
+				arg2 = descendants(sentence, attrToken, False)[0]
 	if arg1 != None and arg2 != None:
 		print("Generic parse")
 		stopwords = ['who', 'what', 'where', 'when', 'why', 'how']
 		arg1 = [word for word in arg1 if word.lower_ not in stopwords]
+		for words in stopwords:
+			arg2.replace('words','')
+			arg2.replace('  ', '')
 		return Extract(arg1=''.join(str(i) + " " for i in arg1).strip(), arg2=answer, rel=arg2)
 	return None
 
@@ -225,6 +228,12 @@ def noObjParse(sentence, answer):
 
 	print("noObj parse")
 	return Extract(arg1=arg1, rel=''.join(str(i).replace("?", "").replace(",", "").strip() + " " for i in rel).strip(), arg2=answer)
+
+def noSubjParse(sentence, answer):
+	'''Used when there is no subject in the sentence '''
+	arg1 = []
+	rel = []
+	arg2 = []
 
 def whichParse(sentence, answer):
 	''' Parser for questions that start with which '''
