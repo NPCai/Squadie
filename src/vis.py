@@ -25,6 +25,15 @@ def descendants(sentence, ancestor, ignoreFirst, *includes):
 def isWh(token):
 	return token.lower_ in ['who', 'what', 'where', 'when', 'why', 'how']#,'What','Where','When','Why','How']
 
+def extractHelper(arg1, rel, arg2):
+	if "list" in str(type(arg1)):
+		arg1 = ''.join(str(i) + " " for i in arg1).strip()
+	if "list" in str(type(rel)):
+		rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip()
+	if "list" in str(type(arg2)):
+		arg2 = ''.join(str(i) + " " for i in arg2).strip()
+	return arg1, rel, arg2
+
 class Extract(object):
 
 	def __init__(self, arg1=None, rel=None, arg2=None):
@@ -236,11 +245,35 @@ def noSubjParse(sentence, answer):
 	arg1 = []
 	rel = []
 	arg2 = []
+	objCounter = 0
+	nonObj = False
+	prepSave = []
 	for subjSearch in sentence:
 		if "subj" in subjSearch.dep_ and not isWh(subjSearch):
 			return None
-	
-
+	if "subj" in sentence[0].dep_:
+		arg1 = answer
+		for child in sentence:
+			if "obj" in child.dep_ and objCounter == 0 or "advcl" in child.dep_ and objCounter == 0:
+				_, rel = descendants(sentence, child, True, sentence.root)
+				objCounter += 1
+				nonObj = True
+			if "prep" in child.dep_:
+				prepSave.append(child.lower_)
+				_, arg2 = descendants(sentence, child, True)
+				for obj in arg2:
+					if "obj" in obj.dep_[0] and objCounter > 0 or "obj" in obj.dep_[0] and nonObj == True:
+						_, arg2 = descendants(sentence, child, True)
+						arg2 = prepSave + arg2
+						break
+			if "obj" in child.dep_:
+				_, arg2 = descendants(sentence,child,True)
+		rel = [token for token in rel if token not in arg2]
+	else:
+		arg1 = sentence.root
+	arg1, rel, arg2 = extractHelper(arg1, rel, arg2)
+	print("No Subject Parse")
+	return Extract(arg1 = arg1, rel = rel, arg2 = arg2)
 def whichParse(sentence, answer):
 	''' Parser for questions that start with which '''
 	if sentence[0].lower_ != "which" or sentence[1].dep_ == "nsubj":
@@ -351,12 +384,7 @@ def howParse(sentence, answer):
 		return None
 
 	print("How parse")
-	if "list" in str(type(arg1)):
-		arg1 = ''.join(str(i) + " " for i in arg1).strip()
-	if "list" in str(type(rel)):
-		rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip()
-	if "list" in str(type(arg2)):
-		arg2 = ''.join(str(i) + " " for i in arg2).strip()
+	arg1, rel, arg2 = extractHelper(arg1, rel, arg2)
 	return Extract(arg1 = arg1, rel = rel, arg2 = arg2)
 
 def whereParse(sentence, answer):

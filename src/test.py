@@ -114,8 +114,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"What makes energy changes in a closed system?")
-		self.oneSentenceTest = ["non-conservative forces"]
+		self.oneSentence = nlp(u"What is needed to pack electrons densely together?")
+		self.oneSentenceTest = ["energy"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
