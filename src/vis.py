@@ -67,6 +67,8 @@ def parse(sentence, answer):
 	if badExtract(i):
 		i = noObjParse(sentence, answer)
 	if badExtract(i):
+		i = noSubjParse(sentence, answer)
+	if badExtract(i):
 		i =  threeOrFourParser(sentence, answer, True)
 	if badExtract(i):
 		return None
@@ -234,6 +236,9 @@ def noSubjParse(sentence, answer):
 	arg1 = []
 	rel = []
 	arg2 = []
+	for subjSearch in sentence:
+		if "subj" in subjSearch.dep_ and not isWh(subjSearch):
+			return None
 	
 
 def whichParse(sentence, answer):

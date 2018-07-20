@@ -24,7 +24,8 @@ class TestParseMethods(unittest.TestCase):
 
 
 	<root compound, compound compound dobj, by answer>
-	<answer, root compound dobj,>
+	<answer, root compound dobj, prep det amod pobj>
+	<answer, auxpass root aux advcl, dobj advmod advmod>
 	
 	<idea strings, transmit tension forces, by action-reaction pairs> No inital
 	<nonconservative forces, makes energy changes, in a closed system> Use makes
@@ -113,8 +114,8 @@ class TestParseMethods(unittest.TestCase):
 			What bongo is bongo in bongo?''')
 		self.longerTest = ["Labor","bongo"]
 
-		self.oneSentence = nlp(u"how many copies of 4 sold in the first week?")
-		self.oneSentenceTest = ["310,000"]
+		self.oneSentence = nlp(u"What makes energy changes in a closed system?")
+		self.oneSentenceTest = ["non-conservative forces"]
 
 	'''def test_descendants(self):
 		sentences = list(self.doc.sents)
