@@ -3,6 +3,8 @@ import json
 from collections import defaultdict
 import sys
 
+# Creates tuples-train or tuples-dev which prints sentence tuple pairs in conjuction with the contextual paragraph
+
 JSON_FILE = "../data/qaTuples-train.json"
 SENT_FILE = "../data/tuples-train.json"
 VERSION = "2.0v1.1"

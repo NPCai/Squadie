@@ -18,7 +18,7 @@ first = True
 src_file = open("../data/news_qa_src.txt", "w")
 tgt_file = open("../data/news_qa_tgt.txt", "w")
 
-with open('../data/news_qa.csv', 'r') as csvfile:
+with open('../data/news_qa.csv', 'r', encoding = "utf8") as csvfile:
 	spamreader = csv.reader(csvfile, delimiter=',')
 	count = 0
 	for row in spamreader:

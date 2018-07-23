@@ -247,7 +247,6 @@ def noSubjParse(sentence, answer):
 	arg2 = []
 	objCounter = 0
 	nonObj = False
-	prepSave = []
 	noMoreObj = False
 	for subjSearch in sentence:
 		if "subj" in subjSearch.dep_ and not isWh(subjSearch):
