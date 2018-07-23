@@ -354,7 +354,7 @@ def howParse(sentence, answer):
 			arg2.insert(0,"as")
 		argument = True
 	
-	if "comp" in sentence[1].dep_ or sentence[1].dep_ == "advmod":
+	elif "comp" in sentence[1].dep_ or sentence[1].dep_ == "advmod":
 		for child in sentence:
 			if "obj" in child.dep_:
 				objTrue = True
