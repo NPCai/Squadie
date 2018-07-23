@@ -2,12 +2,18 @@ import json
 import vis as v
 import spacy
 import sys
+import argparse
 
-VERSION = "2.0v1.0"
+parser = argparse.ArgumentParser()
+parser.add_argument("-dev", "--devset", action="store_true",
+                    help="Use of the much smaller dev training set")
+args = parser.parse_args()
+
+VERSION = "2.0v1.1"
 TRAINFILE = "../squad2/train-v2.0.json"
 JSON_FILE = "../data/qaTuples-train.json"
 
-if len(sys.argv) > 1 and sys.argv[1] == "dev":
+if args.devset:
 	TRAINFILE = "../squad2/dev-v2.0.json"
 	JSON_FILE = "../data/qaTuples-dev.json"
 
@@ -35,6 +41,8 @@ with open(JSON_FILE, "w", encoding = "utf8") as outFile:
 					q = span['question'].replace("\t", "")
 					if q.endswith("."):
 						q = q[:-1]
+					if q.endswith(" "):
+						q.rstrip()
 					if not q.endswith("?"):
 						q += "?"
 					shortAnswer = None
@@ -52,7 +60,7 @@ with open(JSON_FILE, "w", encoding = "utf8") as outFile:
 						failList.append(str(sentence) + " " + str(shortAnswer))
 					else:
 						successes = successes + 1
-						print(x)
+						print(x,"\n")
 						squadieQa['question'] = q
 						squadieQa['tuple'] = str(x)
 						squadieQa['answer'] = shortAnswer
