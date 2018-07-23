@@ -4,6 +4,7 @@ import csv
 import vis
 import spacy
 from collections import Counter
+import re
 nlp = spacy.load('en')
 
 def get_sentence(doc, int_pos):
@@ -46,13 +47,16 @@ with open('../data/news_qa.csv', 'r') as csvfile:
 					# We've found spacy does better parses on individual sentecnes so I'll create another doc object
 					question = list(nlp(row[1].strip()).sents)[0]
 					tupie = vis.parse(question, row[6][r[0]:r[1]].strip())
-					#print("Tuple: ", tupie)
-					#print("------------------------------------\n\n\n\n\n")
-					print(count)
-					src_file.write(sent_txt.strip() + "\r\n")
-					tgt_file.write(str(tupie) + "\r\n")
-					
-					count += 1
+					if len(str(tupie)) > 5 and len(sent_txt) > 5:
+						#print("Tuple: ", tupie)
+						#print("------------------------------------\n\n\n\n\n")
+						print(count)
+						print(sent_txt.strip())
+
+						src_file.write(re.sub('\s+', ' ', sent_txt).strip() + "\r\n")
+						tgt_file.write(re.sub('\s+', ' ', str(tupie)).strip() + "\r\n")
+						
+						count += 1
 src_file.close()
 tgt_file.close()
 print(count)
