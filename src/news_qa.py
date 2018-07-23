@@ -1,5 +1,4 @@
 ''' This file convers the News QA dataset from Maluuba '''
-
 import csv
 import vis
 import spacy
@@ -28,7 +27,7 @@ with open('../data/news_qa.csv', 'r', encoding = "utf8") as csvfile:
 		if len(row[1]) < 7: # or not vis.isWh(row[1]):
 			continue
 		doc = nlp(row[6])
-		uniques = cnt = Counter()
+		uniques = Counter()
 		for str_tup in row[2].replace(",", "|").split("|"):
 			arr = str_tup.split(":")
 			if len(arr) == 2:
@@ -51,10 +50,8 @@ with open('../data/news_qa.csv', 'r', encoding = "utf8") as csvfile:
 						#print("Tuple: ", tupie)
 						#print("------------------------------------\n\n\n\n\n")
 						print(count)
-						print(sent_txt.strip())
-
 						src_file.write(re.sub('\s+', ' ', sent_txt).strip() + "\r\n")
-						tgt_file.write(re.sub('\s+', ' ', str(tupie)).strip() + "\r\n")
+						tgt_file.write(str(tupie) + "\r\n")
 						
 						count += 1
 src_file.close()

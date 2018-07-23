@@ -41,7 +41,7 @@ class Extract(object):
 		self.rel = rel
 		self.arg2 = arg2
 	def __str__(self):
-		return "<" + str(self.arg1) + "," + str(self.rel) + "," + str(self.arg2) + ">"
+		return "<" + str(self.arg1) + "\t" + str(self.rel) + "\t" + str(self.arg2) + ">"
 
 def badExtract(i):
 	if i == None or i.arg1 == None or str(i.arg1) == "" or i.rel == None or str(i.rel) == "" or i.arg2 == None or str(i.arg2) == "":
