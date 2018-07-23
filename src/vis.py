@@ -27,11 +27,11 @@ def isWh(token):
 
 def extractHelper(arg1, rel, arg2):
 	if "list" in str(type(arg1)):
-		arg1 = ''.join(str(i) + " " for i in arg1).strip()
+		arg1 = ''.join(str(i) + " " for i in arg1).replace("?","").strip()
 	if "list" in str(type(rel)):
 		rel = ''.join(str(i).replace("?","").strip() + " " for i in rel).replace("  "," ").strip()
 	if "list" in str(type(arg2)):
-		arg2 = ''.join(str(i) + " " for i in arg2).strip()
+		arg2 = ''.join(str(i) + " " for i in arg2).replace("?","").strip()
 	return arg1, rel, arg2
 
 class Extract(object):
@@ -270,14 +270,10 @@ def noSubjParse(sentence, answer):
 			if "obj" in child.dep_ and noMoreObj == False:
 				_, arg2 = descendants(sentence,child,True)
 		rel = [token for token in rel if not token in arg2]
-	
-	else: # There is absolutely no subject in the sentence
-		arg1 = sentence.root
 
 
 	arg1, rel, arg2 = extractHelper(arg1, rel, arg2)
 	print("No Subject Parse")
-	print(" arg1 = ",arg1,"\n","rel = ",rel,"\n","arg2 = ",arg2,"\n")
 	return Extract(arg1 = arg1, rel = rel, arg2 = arg2)
 def whichParse(sentence, answer):
 	''' Parser for questions that start with which '''
@@ -562,12 +558,13 @@ def threeOrFourParser(sentence, answer, force):
 			arg1 = [wordy for wordy in arg1 if wordy.lower_ not in stopwordsy]
 			for coin in sentence:
 				if coin.dep_ == "ROOT":
-					rel = coin.lower_
+					rel.append(coin.lower_)
 					arg2 = answer
 				if force == True and coin.dep_ == "aux" and coin.lower_ == "did":
 					print("reno")
 					rel.insert(0,coin.lower_)
+			arg1 = [token for token in arg1 if token.lower_ not in rel]
 
 	arg1,rel,arg2 = extractHelper(arg1,rel,arg2)
 	print("Three or four parser")
-	return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).replace("?","").strip(), rel = rel)
+	return Extract(arg1 = arg1, rel = rel, arg2 = arg2)
