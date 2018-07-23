@@ -51,7 +51,7 @@ with open('../data/news_qa.csv', 'r', encoding = "utf8") as csvfile:
 						#print("------------------------------------\n\n\n\n\n")
 						print(count)
 						src_file.write(re.sub('\s+', ' ', sent_txt).strip() + "\r\n")
-						tgt_file.write(re.sub('\s+', ' ', str(tupie)).strip() + "\r\n")
+						tgt_file.write(str(tupie) + "\r\n")
 						
 						count += 1
 src_file.close()
