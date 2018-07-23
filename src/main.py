@@ -4,6 +4,10 @@ import spacy
 import sys
 import argparse
 
+
+# Creates qaTuples-train and dev which contains questions, IDs, answers, tuples, and the contextual paragraphs
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-dev", "--devset", action="store_true",
                     help="Use of the much smaller dev training set")
