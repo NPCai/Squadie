@@ -46,7 +46,7 @@ with open('../data/news_qa.csv', 'r', encoding = "utf8") as csvfile:
 					# We've found spacy does better parses on individual sentecnes so I'll create another doc object
 					question = list(nlp(row[1].strip()).sents)[0]
 					tupie = vis.parse(question, row[6][r[0]:r[1]].strip())
-					if len(str(tupie)) > 5 and len(sent_txt) > 5:
+					if tupie != None and sent_txt != None and len(str(tupie)) > 5 and len(sent_txt) > 5:
 						#print("Tuple: ", tupie)
 						#print("------------------------------------\n\n\n\n\n")
 						print(count)

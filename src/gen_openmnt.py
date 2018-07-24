@@ -1,6 +1,6 @@
 import json
 import sys
-
+import re
 ''' This file loads data into opennmt format in the form (two files)
 		sentence subj obj 
 		tuple
@@ -34,9 +34,5 @@ with open("../data/opennmt-src-" + sys.argv[1] + ".tsv", "w") as src:
 	with open("../data/opennmt-tgt-" + sys.argv[1] + ".tsv", "w") as tgt:
 		for pair in data:
 			for tup in pair['tuples']:
-				tupley = tup.strip().split("\t")
-				subj = tupley[0][1:].strip()
-				pred = tupley[1].strip()
-				obj = tupley[2][:-1].strip()
-				src.write(pair['sentence'].replace('\n', "") + " SUBJ " + subj + " OBJ " + obj + "\n")
-				tgt.write(pred + "\n")
+				src.write(re.sub('\s+', ' ', pair['sentence']).strip() + "\n")
+				tgt.write(tup + "\n")
