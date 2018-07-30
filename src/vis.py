@@ -530,6 +530,7 @@ def whoParseAttr(sentence, answer):
 			return Extract(arg1 = arg1, arg2 = ''.join(str(i) + " " for i in arg2).strip(), rel = ''.join(str(i) + " " for i in rel).strip())
 
 def threeOrFourParser(sentence, answer, force):
+	''' Used if the question has 3 or 4 words or a catch all if every other parser has failed'''
 	arg1 = []
 	arg2 = []
 	rel = []
