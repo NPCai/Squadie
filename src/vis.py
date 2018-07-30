@@ -190,6 +190,7 @@ def invertedParse(sentence, answer):
 
 def invertedParseAcomp(sentence, answer):
 	# Inverted parse algorithm when the child is an adjectival complement
+	# Now obsolete
 	arg1 = []
 	arg2 = ""
 	rel = []
