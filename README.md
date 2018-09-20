@@ -29,7 +29,7 @@ Like in other areas of NLP, we expect neural networks to improve over state-of-t
 
 [Cui et al. (2018)](https://arxiv.org/abs/1805.04270) offers one solution to this problem. They build training data by bootstrapping from a rule-based system, [OpenIE-4](https://github.com/allenai/openie-standalone). However, despite only keeping >90% confidence tuples from OpenIE-4, many of these tuples are malformed or incorrect. After experimenting with OpenIE-4, we noticed that reported confidence isn't a good measure of tuple quality. Clone our repositiory, [Legacy Open IE](https://github.com/NPCai/Legacy-Open-IE), to experiment with Stanford OpenIE and OpenIE-4. 
 
-Large QA datasets are available and contain *almost* the right schema. An extensive ruleset (based on dependency parsing) can successfully convert QA pairs to OpenIE tuples. This is an easier problem then OpenIE itself because the answer is guarenteed to be one element in the tuple. The remaining problem is to (1) extract the other two elements, and (2) determine which is the subject/relation/object. 
+Large QA datasets such as SQuAD and NewsQA are available and contain *almost* the right schema. An extensive ruleset (based on dependency parsing) can successfully convert QA pairs to OpenIE tuples. This is an easier problem then OpenIE itself because the answer is guarenteed to be one element in the tuple. The remaining problem is to (1) extract the other two elements, and (2) determine which is the subject/relation/object. 
 
 ## Examples
 
